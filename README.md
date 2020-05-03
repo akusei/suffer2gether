@@ -13,7 +13,7 @@ This patch will need to be reapplied every time Green Hell is updated.
 ## Building From source
 This is not a cross-platform application as it's intended to be used on a Windows based game. It's also using MFC so only a Visual Studio solution is provided, no makefiles or other IDE project files. Everything you need to build from source is included in this repo, except [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) which you can download for free from Microsoft.
 
-## Editing GIMP Resources
+## Editing Resources
 If you want to edit the buttons or font you will need to download and install the fonts listed in the [3rd Part Credit](#3rd-party-credit) section of this readme.
 
 ## Virus/Malware/Trojan Warnings
@@ -24,7 +24,7 @@ I originally started coding this in MASM32 Assembler for a much smaller executab
 The source code is available to review or build from if you feel the release binary is untrusted. I will also be including the executable hash with every release
 
 ## 3rd Party Credit
-**Background image:** Repurposed from the Green Hell game files and modified by me for use as a window background.
+**Background image:** Repurposed from the Green Hell game files and modified by me for use as a window background. All credit for the walkie talkie images go to Creepy Jar for some fantastic work.
 
 **Screen Font:** Neon Pixel-7 version 1.0 created by [styleseven.com](http://www.styleseven.com/php/get_product.php?product=Neon%20Pixel-7).
 
