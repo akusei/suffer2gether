@@ -1,5 +1,5 @@
 # Green Hell Multiplayer Patch - More Suffering Together
-TL;DR: Patch Green Hell to allow up to 8 people to play together instead of the default 4.
+TL;DR: Patch Green Hell to allow up to 8 people to play together instead of the default 4. Suffer More; Suffer Toegther!
 
 ![main patch window](/contrib/screenshot.png?raw=true "main patch window")
 
@@ -14,7 +14,7 @@ This patch will need to be reapplied every time Green Hell is updated.
 This is not a cross-platform application as it's intended to be used on a Windows based game. It's also using MFC so only a Visual Studio solution is provided, no makefiles or other IDE project files. Everything you need to build from source is included in this repo, except [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) which you can download for free from Microsoft.
 
 ## Editing GIMP Resources
-If you want to edit the buttons or font you will need to download and install the fonts listed in the [3rd Part Credit](#credit) section of this readme.
+If you want to edit the buttons or font you will need to download and install the fonts listed in the [3rd Part Credit](#3rd-party-credit) section of this readme.
 
 ## Virus/Malware/Trojan Warnings
 This file was written in C++ MFC with only 1 external lib dependency on uFMOD and it is NOT signed. For some reason this triggers a few anti-virus packages to see this as a generic trojan or malware. This is a false positive and can be safely ignored.
