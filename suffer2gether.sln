@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gh_patch", "src\gh_patch.vcxproj", "{30E18E32-6E65-4CDC-8765-E978BB0EBB09}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "suffer2gether", "src\suffer2gether.vcxproj", "{30E18E32-6E65-4CDC-8765-E978BB0EBB09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

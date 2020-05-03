@@ -2,7 +2,7 @@
 #include "resource.h"
 #include <mmsystem.h>
 
-#include "gh_patch.h"
+#include "CApp.h"
 #include "CMainWindow.h"
 #include "../includes/ufmod.h"
 

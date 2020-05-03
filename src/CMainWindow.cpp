@@ -1,6 +1,5 @@
 #include "Global.h"
 #include "Resource.h"
-#include "gh_patch.h"
 #include "CMainWindow.h"
 #include "CCustomButton.h"
 #include "CScreen.h"
