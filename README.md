@@ -14,14 +14,14 @@ This patch will need to be reapplied every time Green Hell is updated.
 This is not a cross-platform application as it's intended to be used on a Windows based game. It's also using MFC so only a Visual Studio solution is provided, no makefiles or other IDE project files. Everything you need to build from source is included in this repo, except [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) which you can download for free from Microsoft.
 
 ## Editing Resources
-If you want to edit the buttons or font you will need to download and install the fonts listed in the [3rd Part Credit](#3rd-party-credit) section of this readme.
+If you want to edit the buttons or font you will need to download and install the fonts listed in the [3rd Party Credit](#3rd-party-credit) section of this readme.
 
 ## Virus/Malware/Trojan Warnings
-This file was written in C++ MFC with only 1 external lib dependency on uFMOD and it is NOT signed. For some reason this triggers a few anti-virus packages to see this as a generic trojan or malware. This is a false positive and can be safely ignored.
+This file was written in C++ MFC with only 1 external lib dependency and it isn't signed. For some reason this triggers a few anti-virus packages to see this as a generic trojan or malware. This is a false positive and can be safely ignored.
 
-I originally started coding this in MASM32 Assembler for a much smaller executable and a more fun project but this was triggering A/V heuristic detections like crazy. So I switched to a Visual Studio MFC project and even test a blank MFC template on VirusTotal but even Microsoft's default MFC template with no modification is detected by a few A/V packages, including Microsoft Defender!
+I originally started coding this in MASM32 Assembler for a much smaller executable and a fun project but this was triggering A/V heuristic detections like crazy. So I switched to a Visual Studio MFC project. I even tested a blank MFC template on [VirusTotal](https://www.virustotal.com/gui/file/d8768977870f3bf93ed2ceaa4fe906e868eef5e4c960223d2e51f654138079c6/detection) but even that is detected by a few A/V packages, including Microsoft Defender!
 
-The source code is available to review or build from if you feel the release binary is untrusted. I will also be including the executable hash with every release
+The source code is available for review or to build from if you feel the release binary is untrusted. I will also be including the executable hash with every release.
 
 ## 3rd Party Credit
 **Background image:** Repurposed from the Green Hell game files and modified by me for use as a window background. All credit for the walkie talkie images go to Creepy Jar for some fantastic work.
