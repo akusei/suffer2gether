@@ -2,6 +2,8 @@
 #ifndef CMAINWINDOW_H
 #define CMAINWINDOW_H
 
+#include <filesystem>
+
 #include "CCustomButton.h"
 #include "CScreen.h"
 #include "CGreenHell.h"
@@ -29,6 +31,8 @@ protected:
 
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void PostNcDestroy();
+
+	BOOL BrowseGameFiles(std::filesystem::path *path);
 
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

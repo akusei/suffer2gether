@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ghpatch.rc
+// Used by suffer2gether.rc
 //
 #define IDB_BACKGROUND                  310
 #define ID_PATCH                        310
