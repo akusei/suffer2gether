@@ -19,7 +19,7 @@ If you want to edit the buttons or font you will need to download and install th
 ## Virus/Malware/Trojan Warnings
 This file was written in C++ MFC with only 1 external lib dependency and it isn't signed. For some reason this triggers a few anti-virus packages to see this as a generic trojan or malware. This is a false positive and can be safely ignored.
 
-I originally started coding this in MASM32 Assembler for a much smaller executable and a fun project but this was triggering A/V heuristic detections like crazy. So I switched to a Visual Studio MFC project. I even tested a blank MFC template on [VirusTotal](https://www.virustotal.com/gui/file/d8768977870f3bf93ed2ceaa4fe906e868eef5e4c960223d2e51f654138079c6/detection) but even that is detected by a few A/V packages, including Microsoft Defender!
+I originally started coding this in MASM32 Assembler for a much smaller executable and a fun project but this was triggering A/V heuristic detections like crazy. So I switched to a Visual Studio MFC project. I even tested a blank MFC template on [VirusTotal](https://www.virustotal.com/gui/file/62f97e4757e0a508110dd60b2729c688079bcda52e81b771b5ee923f2646f5bb/detection) but even that is detected by a few A/V packages, including Microsoft Defender!
 
 The source code is available for review or to build from if you feel the release binary is untrusted. I will also be including the executable hash with every release.
 
