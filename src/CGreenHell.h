@@ -17,6 +17,8 @@ public:
 
 	const BOOL IsInstalled();
 	const std::filesystem::path& GetDllPath();
+	void SetDllPath(const std::filesystem::path& path);
+	void SetManualMode();
 
 protected:
 	std::filesystem::path m_DllPath;

@@ -1,8 +1,15 @@
 #include "Global.h"
 #include "Resource.h"
+
+#include <afxdlgs.h>
+#include <filesystem>
+
 #include "CMainWindow.h"
 #include "CCustomButton.h"
 #include "CScreen.h"
+
+
+using namespace std;
 
 
 IMPLEMENT_DYNAMIC(CMainWindow, CFrameWnd)
@@ -98,16 +105,30 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	this->SetLayeredWindowAttributes(RGB(0, 255, 0), 0, LWA_COLORKEY);
 
 	this->m_Screen->SetTitle("SUFFERMORE");
-
-	this->m_Patcher.Load(this->m_Greenhell.GetDllPath());
-	if (!this->m_Greenhell.IsInstalled())
-		this->m_Screen->SetText("GAME FILES NOT DETECTED");
-	else
-		this->m_Screen->SetText("ALLOWS UP TO 8 PEOPLE TO PLAY");
+	this->m_Screen->SetText("ALLOWS UP TO 8 PEOPLE TO PLAY");
 
 	return 0;
 }
 
+BOOL CMainWindow::BrowseGameFiles(filesystem::path *path)
+{
+	CFileDialog dialog = CFileDialog(
+		TRUE,
+		".dll",
+		NULL,
+		OFN_DONTADDTORECENT | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_PATHMUSTEXIST,
+		"Green Hell (Assembly-CSharp.dll)|Assembly-CSharp.dll||",
+		this
+	);
+
+	if (dialog.DoModal() != IDOK)
+		return FALSE;
+
+	if (path != nullptr)
+		*path = dialog.GetPathName().GetString();
+
+	return TRUE;
+}
 
 void CMainWindow::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -115,11 +136,22 @@ void CMainWindow::OnLButtonDown(UINT nFlags, CPoint point)
 	CFrameWnd::OnLButtonDown(nFlags, point);
 }
 
-
 void CMainWindow::OnPatch()
 {
+	if (!this->m_Greenhell.IsInstalled())
+	{
+		this->m_Screen->SetText("GAME FILES NOT DETECTED");
+		filesystem::path path;
+		if (!this->BrowseGameFiles(&path))
+			return;
+
+		this->m_Greenhell.SetDllPath(path);
+	}
+
 	if (!this->m_IsPatched)
 	{
+		this->m_Patcher.Load(this->m_Greenhell.GetDllPath());
+
 		if (this->m_Patcher.IsPatched())
 		{
 			this->m_Screen->SetText("GAME IS ALREADY PATCHED");
@@ -130,12 +162,14 @@ void CMainWindow::OnPatch()
 		if (!this->m_Patcher.Find("1A80????????1780????????73????????80????????2A", &pos, 512))
 		{
 			this->m_Screen->SetText("ERROR MISSING OPCODES");
+			this->m_Greenhell.SetManualMode();
 			return;
 		}
 
 		if (!this->m_Patcher.Patch(pos, "1E"))
 		{
 			this->m_Screen->SetText("PATCH FAILED");
+			this->m_Greenhell.SetManualMode();
 			return;
 		}
 

@@ -62,3 +62,17 @@ const filesystem::path& CGreenHell::GetDllPath()
 
 	return this->m_DllPath;
 }
+
+void CGreenHell::SetManualMode()
+{
+	this->m_Checked = TRUE;
+	this->m_IsInstalled = FALSE;
+	this->m_DllPath = filesystem::path();
+}
+
+void CGreenHell::SetDllPath(const filesystem::path& path)
+{
+	this->m_Checked = TRUE;
+	this->m_IsInstalled = TRUE;
+	this->m_DllPath = path;
+}
