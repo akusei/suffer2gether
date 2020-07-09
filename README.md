@@ -1,5 +1,5 @@
 # Green Hell Multiplayer Patch - More Suffering Together
-TL;DR: Patch Green Hell to allow up to 8 people to play together instead of the default 4. Suffer More; Suffer Toegther!
+TL;DR: Patch Green Hell to allow up to 8 people to play together instead of the default 4. Suffer More; Suffer Together!
 
 ![main patch window](/contrib/screenshot.png?raw=true "main patch window")
 
