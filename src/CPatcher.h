@@ -16,7 +16,7 @@ public:
 	virtual ~CPatcher();
 
 	BOOL Load(const std::filesystem::path& filename, DWORD startingOffset = 0);
-	BOOL Find(const std::string& pattern, std::streampos* offset, DWORD startingOffset = 0, DWORD seekDir = std::ios::beg);
+	BOOL Find(const std::string& pattern, std::streampos* offset, DWORD startingOffset = 0, std::ios::seekdir seekDir =std::ios::beg);
 
 	BOOL Patch(std::streampos offset, const std::string& pattern);
 	BOOL IsPatched();

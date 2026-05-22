@@ -21,7 +21,7 @@ CPatcher::~CPatcher()
 BOOL CPatcher::Load(const filesystem::path& filename, DWORD startingOffset)
 {
 	this->m_File.close();
-	this->m_File.open(filename, ios::in | ios::out | ios::binary, _SH_DENYWR);
+	this->m_File.open(filename, ios::in | ios::out | ios::binary);
 	if (!this->m_File.is_open())
 	{
 		this->m_LastError = "Unable to open file";
@@ -33,7 +33,7 @@ BOOL CPatcher::Load(const filesystem::path& filename, DWORD startingOffset)
 	return TRUE;
 }
 
-BOOL CPatcher::Find(const string& pattern, streampos* offset, DWORD startingOffset, DWORD seekDir)
+BOOL CPatcher::Find(const string& pattern, streampos* offset, DWORD startingOffset, ios::seekdir seekDir)
 {
 	this->m_LastError.clear();
 	if (!this->m_File.is_open())
