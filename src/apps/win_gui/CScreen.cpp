@@ -1,8 +1,8 @@
 #include "CScreen.h"
-#include "Global.h"
+#include "../../core/global.h"
 #include <sstream>
 
-#include "Resource.h"
+#include "../../res/resource.h"
 
 using namespace std;
 using namespace Gdiplus;

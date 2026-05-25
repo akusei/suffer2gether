@@ -1,21 +1,21 @@
-#include "CGreenHell.h"
+#include "WindowsGameLocator.h"
 
 using namespace std;
 
 
-CGreenHell::CGreenHell() : 
-	m_Checked(FALSE), 
-	m_DllPath(filesystem::path()), 
+WindowsGameLocator::WindowsGameLocator() :
+	m_Checked(FALSE),
+	m_DllPath(filesystem::path()),
 	m_IsInstalled(FALSE)
 {
 }
 
-CGreenHell::~CGreenHell()
+WindowsGameLocator::~WindowsGameLocator()
 {
 
 }
 
-const BOOL CGreenHell::IsInstalled()
+const BOOL WindowsGameLocator::IsInstalled()
 {
 	if (this->m_Checked)
 		return this->m_IsInstalled;
@@ -55,7 +55,7 @@ const BOOL CGreenHell::IsInstalled()
 	return this->m_IsInstalled;
 }
 
-const filesystem::path& CGreenHell::GetDllPath()
+const filesystem::path& WindowsGameLocator::GetDllPath()
 {
 	if (!this->m_Checked)
 		this->IsInstalled();
@@ -63,14 +63,14 @@ const filesystem::path& CGreenHell::GetDllPath()
 	return this->m_DllPath;
 }
 
-void CGreenHell::SetManualMode()
+void WindowsGameLocator::SetManualMode()
 {
 	this->m_Checked = TRUE;
 	this->m_IsInstalled = FALSE;
 	this->m_DllPath = filesystem::path();
 }
 
-void CGreenHell::SetDllPath(const filesystem::path& path)
+void WindowsGameLocator::SetDllPath(const filesystem::path& path)
 {
 	this->m_Checked = TRUE;
 	this->m_IsInstalled = TRUE;

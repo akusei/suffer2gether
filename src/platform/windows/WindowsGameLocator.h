@@ -1,22 +1,25 @@
 #pragma once
-#ifndef CGREENHELL_H
-#define CGREENHELL_H
+#ifndef WINDOWSGAMELOCATOR_H
+#define WINDOWSGAMELOCATOR_H
 
 
 #include "framework.h"
-#include "global.h"
+#include "../../core/global.h"
+#include "../../core/IGameLocator.h"
+
 #include <string>
 #include <filesystem>
 
 
-class CGreenHell
+class WindowsGameLocator
 {
 public:
-	CGreenHell();
-	virtual ~CGreenHell();
+	WindowsGameLocator();
+	virtual ~WindowsGameLocator();
 
 	const BOOL IsInstalled();
 	const std::filesystem::path& GetDllPath();
+	std::filesystem::path GetGamePath() override;
 	void SetDllPath(const std::filesystem::path& path);
 	void SetManualMode();
 

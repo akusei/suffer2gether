@@ -2,7 +2,7 @@
 #ifndef CSCREEN_H
 #define CSCREEN_H
 
-#include "framework.h"
+#include "../../platform/windows/framework.h"
 #include <gdiplus.h>
 #include <string>
 #include <vector>
