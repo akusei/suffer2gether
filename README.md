@@ -4,14 +4,20 @@ TL;DR: Patch Green Hell to allow up to 8 people to play together instead of the 
 ![main patch window](/contrib/screenshot.png?raw=true "main patch window")
 
 ## Usage
-Download the latest patch from the release page or build from source. The patch will detect if and where Green Hell is installed so all you have to do is click "PATCH". Once the patch says you're ready to play, exit the patch and start playing Green Hell.
+Windows:
+Download the latest windows patch from the release page or build from source. The patch will detect if and where Green Hell is installed so all you have to do is click "PATCH". Once the patch says you're ready to play, exit the patch and start playing Green Hell.
 
-This patch will need to be reapplied every time Green Hell is updated.
+Linux: 
+Download the linux patch and run the file in the terimal if your steam install is in the default location it will grab it elsewise you need to provide path to the base green hell game folder (ie: "/home/usr/.steam/steam/steamapps/common/Green Hell/) if needed
+
+**This patch will need to be reapplied every time Green Hell is updated.**
 
 **NOTE:** Every player in your multiplayer session will need to apply this patch. If you don't, any player joining after the 4th will have no name plate above their head making it very difficult to see them.
 
 ## Building From source
-This is not a cross-platform application as it's intended to be used on a Windows based game. It's also using MFC so only a Visual Studio solution is provided, no makefiles or other IDE project files. Everything you need to build from source is included in this repo, except [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) which you can download for free from Microsoft.
+For Windows: (not recomended) no gaurentees will as i have not compiled for windows since fork as there is no need with a working release, It's also using MFC so only a Visual Studio solution is provided, no makefiles or other IDE project files. Everything you need to build from source is included in this repo, except [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) which you can download for free from Microsoft.
+
+For Linux: Basic C compile using CMake must include ./src/core/*, ./src/apps/linux_cli/* and ./src/platform/linux/*
 
 ## Editing Resources
 If you want to edit the buttons or font you will need to download and install the fonts listed in the [3rd Party Credit](#3rd-party-credit) section of this readme.
