@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     // Check if the user passed a path via the command line
     if (argc >= 2)
     {
-        targetPath = argv[1];
+        targetPath = std::filesystem::path(argv[1]) / "GH_Data" / "Managed" / "Assembly-CSharp.dll";
         std::cout << "Using provided path: " << targetPath << "\n";
     }
     // Fallback: If no path was provided, try to find it automatically

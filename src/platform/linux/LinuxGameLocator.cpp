@@ -11,22 +11,22 @@ std::filesystem::path LinuxGameLocator::GetGamePath()
 	if (homeDir == nullptr)
 		return filesystem::path();
 
-	string home(homeDir);
+	filesystem::path home(homeDir);
 
 	// Common default Steam library paths on Linux
-	vector<string> possiblePaths = {
-		home + "/.local/share/Steam/steamapps/common/Green Hell/GH_Data/Managed/Assembly-CSharp.dll",
-		home + "/.steam/steam/steamapps/common/Green Hell/GH_Data/Managed/Assembly-CSharp.dll",
-		home + "/games/steam/steamapps/common/Green Hell/GH_Data/Managed/Assembly-CSharp.dll"
+	vector<filesystem::path> possiblePaths = {
+		home / ".local/share/Steam/steamapps/common/Green Hell",
+		home / ".steam/steam/steamapps/common/Green Hell",
+		home / "games/steam/steamapps/common/Green Hell"
 	};
 
 	// Check if the file exists in any of the common locations
-	for (const auto& pathStr : possiblePaths)
+	for (const auto& basePath : possiblePaths)
 	{
-		filesystem::path p(pathStr);
-		if (filesystem::exists(p))
+		filesystem::path targetFile = basePath / "GH_Data" / "Managed" / "Assembly-CSharp.dll";
+		if (filesystem::exists(targetFile))
 		{
-			return p;
+			return basePath;
 		}
 	}
 
