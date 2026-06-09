@@ -1,5 +1,6 @@
-#include "../../core/global.h"
-#include "../../res/resource.h"
+#include "global.h"
+#include "res/resource.h"
+#include "GameLocator.h"
 
 #include <afxdlgs.h>
 #include <filesystem>
@@ -19,7 +20,7 @@ CMainWindow::CMainWindow() :
 	m_CmdExit(nullptr),
 	m_CmdPatch(nullptr),
 	m_Screen(nullptr),
-	m_Greenhell(),
+	m_GameDllPath(filesystem::path()),
 	m_Patcher(),
 	m_IsPatched(FALSE)
 {
@@ -35,10 +36,6 @@ CMainWindow::CMainWindow() :
 	this->UpdateWindow();
 }
 
-CMainWindow::~CMainWindow()
-{
-}
-
 BEGIN_MESSAGE_MAP(CMainWindow, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_LBUTTONDOWN()
@@ -47,7 +44,6 @@ BEGIN_MESSAGE_MAP(CMainWindow, CFrameWnd)
 	ON_WM_PAINT()
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
-
 
 BOOL CMainWindow::PreCreateWindow(CREATESTRUCT& cs)
 {
@@ -83,7 +79,6 @@ BOOL CMainWindow::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-
 void CMainWindow::PostNcDestroy()
 {
 	this->KillTimer((UINT_PTR)ID_RENDERTIMER);
@@ -95,7 +90,6 @@ void CMainWindow::PostNcDestroy()
 	SAFE_DELETE(this->m_CmdExit);
 	SAFE_DELETE(this->m_Screen);
 }
-
 
 int CMainWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -138,19 +132,22 @@ void CMainWindow::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CMainWindow::OnPatch()
 {
-	if (!this->m_Greenhell.IsInstalled())
+	if (this->m_GameDllPath.empty())
 	{
-		this->m_Screen->SetText("GAME FILES NOT DETECTED");
-		filesystem::path path;
-		if (!this->BrowseGameFiles(&path))
-			return;
+		GameLocator locator;
+		this->m_GameDllPath = locator.GetGamePath();
 
-		this->m_Greenhell.SetDllPath(path);
+		if (this->m_GameDllPath.empty())
+		{
+			this->m_Screen->SetText("GAME FILES NOT DETECTED");
+			if (!this->BrowseGameFiles(&this->m_GameDllPath))
+				return;
+		}
 	}
 
 	if (!this->m_IsPatched)
 	{
-		this->m_Patcher.Load(this->m_Greenhell.GetDllPath());
+		this->m_Patcher.Load(this->m_GameDllPath);
 
 		if (this->m_Patcher.IsPatched())
 		{
@@ -159,17 +156,15 @@ void CMainWindow::OnPatch()
 		}
 
 		std::streampos pos;
-		if (!this->m_Patcher.Find("1A80????????1780????????73????????80????????2A", &pos, 512))
+		if (!this->m_Patcher.Find(BYTE_PATTERN, &pos, 512))
 		{
 			this->m_Screen->SetText("ERROR MISSING OPCODES");
-			this->m_Greenhell.SetManualMode();
 			return;
 		}
 
-		if (!this->m_Patcher.Patch(pos, "1E"))
+		if (!this->m_Patcher.Patch(pos, BYTE_REPLACEMENT))
 		{
 			this->m_Screen->SetText("PATCH FAILED");
-			this->m_Greenhell.SetManualMode();
 			return;
 		}
 
@@ -179,19 +174,16 @@ void CMainWindow::OnPatch()
 	this->m_Screen->SetText("GAME IS READY TO PLAY");
 }
 
-
 void CMainWindow::OnExit()
 {
 	this->DestroyWindow();
 }
-
 
 void CMainWindow::OnPaint()
 {
 	CPaintDC dc(this);
 	this->m_Screen->OnRender((HDC)dc);
 }
-
 
 void CMainWindow::OnTimer(UINT_PTR nIDEvent)
 {

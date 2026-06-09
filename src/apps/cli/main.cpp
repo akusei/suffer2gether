@@ -1,7 +1,10 @@
-#include "../../core/CPatcher.h"
-#include "../../platform/linux/LinuxGameLocator.h"
+#include "global.h"
+#include "CPatcher.h"
+#include "GameLocator.h"
+
 #include <iostream>
 #include <filesystem>
+
 
 int main(int argc, char* argv[])
 {
@@ -11,24 +14,25 @@ int main(int argc, char* argv[])
     if (argc >= 2)
     {
         targetPath = std::filesystem::path(argv[1]) / "GH_Data" / "Managed" / "Assembly-CSharp.dll";
-        std::cout << "Using provided path: " << targetPath << "\n";
+        std::cout << "Using provided path: \"" << targetPath.string() << "\"\n";
     }
     // Fallback: If no path was provided, try to find it automatically
     else
     {
         std::cout << "No path provided. Searching for Green Hell...\n";
-        LinuxGameLocator locator;
+
+        GameLocator locator;
         targetPath = locator.GetGamePath();
 
         if (targetPath.empty())
         {
             std::cout << "Error: Could not auto-detect Green Hell installation.\n";
             std::cout << "Please provide the path manually:\n";
-            std::cout << "Usage: ./suffer2gether <path_to_Assembly-CSharp.dll>\n";
+            std::cout << "Usage: suffer2gether <path_to_Assembly-CSharp.dll>\n";
             return 1;
         }
 
-        std::cout << "Auto-detected game at: " << targetPath << "\n";
+        std::cout << "Auto-detected game at: \"" << targetPath.string() << "\"\n";
     }
 
     CPatcher patcher;
@@ -46,13 +50,13 @@ int main(int argc, char* argv[])
     }
 
     std::streampos pos;
-    if (!patcher.Find("1A80????????1780????????73????????80????????2A", &pos))
+    if (!patcher.Find(BYTE_PATTERN, &pos, 512))
     {
         std::cout << "Error: Missing opcodes. Is the game already updated?\n";
         return 1;
     }
 
-    if (!patcher.Patch(pos, "1E"))
+    if (!patcher.Patch(pos, BYTE_REPLACEMENT))
     {
         std::cout << "Patch failed!\n";
         return 1;

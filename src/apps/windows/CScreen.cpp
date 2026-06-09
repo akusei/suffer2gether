@@ -1,8 +1,8 @@
 #include "CScreen.h"
-#include "../../core/global.h"
+#include "global.h"
 #include <sstream>
 
-#include "../../res/resource.h"
+#include "res/resource.h"
 
 using namespace std;
 using namespace Gdiplus;
@@ -36,7 +36,7 @@ CScreen::CScreen() :
 	};
 
 	this->m_TitleViewport = { 0, 0, this->m_Viewport.Width, this->m_Viewport.Height };
-	srand(time(nullptr));
+	srand(static_cast<uint32_t>(time(nullptr)));
 }
 
 CScreen::~CScreen()

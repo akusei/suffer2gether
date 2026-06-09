@@ -1,10 +1,10 @@
-#include "../../platform/windows/framework.h"
-#include "../../res/resource.h"
+#include "framework.h"
+#include "res/resource.h"
 #include <mmsystem.h>
 
 #include "CApp.h"
 #include "CMainWindow.h"
-#include "../../../includes/ufmod.h"
+#include "ufmod.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -15,13 +15,24 @@ CApp theApp;
 
 
 CApp::CApp() noexcept :
-	m_Token(0)
+	m_Token(0),
+	m_Mutex(nullptr)
 {
 	this->m_pMainWnd = nullptr;
 }
 
 BOOL CApp::InitInstance()
 {
+	HANDLE existingMutex = OpenMutex(SYNCHRONIZE, FALSE, CApp::MUTEX_NAME.c_str());
+
+	if (existingMutex)
+	{
+		CloseHandle(existingMutex);
+		return FALSE;
+	}
+
+	this->m_Mutex = CreateMutex(NULL, TRUE, CApp::MUTEX_NAME.c_str());
+
 	CWinApp::InitInstance();
 
 	Gdiplus::GdiplusStartupInput input;
@@ -51,6 +62,9 @@ int CApp::ExitInstance()
 #ifndef _DEBUG
 	uFMOD_StopSong();
 #endif
+
+	if (this->m_Mutex)
+		ReleaseMutex(this->m_Mutex);
 
 	return CWinApp::ExitInstance();
 }

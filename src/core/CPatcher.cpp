@@ -60,7 +60,7 @@ bool CPatcher::Find(const string& pattern, streampos* offset, uint32_t startingO
 		for (int i = 0; i < this->m_DataSize && !fullMatch; i++, delta++)
 		{
 			fullMatch = true;
-			for (int j = 0; j < binPattern.size(); j++)
+			for (size_t j = 0; j < binPattern.size(); j++)
 			{
 				uint8_t byte = this->m_Buffer[i + j];
 				uint8_t high = binPattern[j].High;
@@ -99,7 +99,7 @@ bool CPatcher::Patch(streampos offset, const string& pattern)
 	uint8_t* buffer = new uint8_t[size];
 	this->m_File.read((char*)buffer, size);
 
-	for (int i = 0; i < size; i++)
+	for (uint32_t i = 0; i < size; i++)
 	{
 		uint8_t byte = buffer[i];
 		uint8_t high = binPattern[i].High;
@@ -153,7 +153,7 @@ uint8_t CPatcher::ToByte(const char ch) const
 vector<CPatcher::Pattern> CPatcher::ParsePattern(const string& pattern) const
 {
 	vector<CPatcher::Pattern> patterns;
-	for (int i = 0; i < pattern.length(); i += 2)
+	for (size_t i = 0; i < pattern.length(); i += 2)
 	{
 		uint8_t high = this->ToByte(pattern.at(i));
 		uint8_t low = this->ToByte(pattern.at(i + 1));

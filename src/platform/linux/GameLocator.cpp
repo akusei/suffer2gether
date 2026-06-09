@@ -1,13 +1,15 @@
-#include "LinuxGameLocator.h"
-#include <cstdlib>
+#include "GameLocator.h"
 #include <filesystem>
+#include <vector>
 
 using namespace std;
 
-std::filesystem::path LinuxGameLocator::GetGamePath()
+
+filesystem::path GameLocator::GetGamePath()
 {
 	// Get the user's home directory (e.g., /home/username)
 	const char* homeDir = std::getenv("HOME");
+
 	if (homeDir == nullptr)
 		return filesystem::path();
 

@@ -6,8 +6,8 @@
 
 #include "CCustomButton.h"
 #include "CScreen.h"
-#include "../../platform/windows/WindowsGameLocator.h"
-#include "../../core/CPatcher.h"
+#include "CPatcher.h"
+
 
 class CMainWindow : public CFrameWnd
 {
@@ -15,7 +15,7 @@ class CMainWindow : public CFrameWnd
 
 public:
 	CMainWindow();
-	virtual ~CMainWindow();
+	virtual ~CMainWindow() = default;
 
 protected:
 	DECLARE_MESSAGE_MAP()
@@ -24,7 +24,7 @@ protected:
 	CCustomButton* m_CmdExit;
 	CCustomButton* m_CmdPatch;
 	CScreen* m_Screen;
-	WindowsGameLocator m_Greenhell;
+	std::filesystem::path m_GameDllPath;
 	CPatcher m_Patcher;
 	BOOL m_IsPatched;
 

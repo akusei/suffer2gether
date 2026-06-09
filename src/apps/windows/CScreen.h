@@ -2,7 +2,7 @@
 #ifndef CSCREEN_H
 #define CSCREEN_H
 
-#include "../../platform/windows/framework.h"
+#include "framework.h"
 #include <gdiplus.h>
 #include <string>
 #include <vector>
@@ -65,5 +65,6 @@ protected:
 	void Tick();
 	void ResetTicks();
 };
+
 
 #endif

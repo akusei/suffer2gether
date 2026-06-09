@@ -2,7 +2,7 @@
 #ifndef CCUSTOMBUTTON_H
 #define CCUSTOMBUTTON_H
 
-#include "../../platform/windows/framework.h"
+#include "framework.h"
 #include <gdiplus.h>
 
 

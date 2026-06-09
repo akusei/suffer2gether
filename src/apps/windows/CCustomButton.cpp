@@ -1,5 +1,5 @@
 #include "CCustomButton.h"
-#include "../../core/global.h"
+#include "global.h"
 
 using namespace Gdiplus;
 
@@ -57,13 +57,11 @@ BEGIN_MESSAGE_MAP(CCustomButton, CButton)
 	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
-
 void CCustomButton::DrawItem(LPDRAWITEMSTRUCT ps)
 {
 	Graphics gx(ps->hDC);
 	gx.DrawImage((Gdiplus::Image*)this->m_State, 0, 0);
 }
-
 
 void CCustomButton::OnMouseMove(UINT nFlags, CPoint point)
 {
@@ -87,7 +85,6 @@ void CCustomButton::OnMouseMove(UINT nFlags, CPoint point)
 	CButton::OnMouseMove(nFlags, point);
 }
 
-
 void CCustomButton::OnMouseLeave()
 {
 	if (this->m_IsOver)
@@ -98,7 +95,6 @@ void CCustomButton::OnMouseLeave()
 
 	CButton::OnMouseLeave();
 }
-
 
 void CCustomButton::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -111,7 +107,6 @@ void CCustomButton::OnLButtonDown(UINT nFlags, CPoint point)
 	CButton::OnLButtonDown(nFlags, point);
 }
 
-
 void CCustomButton::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (this->m_IsDown)
@@ -122,7 +117,6 @@ void CCustomButton::OnLButtonUp(UINT nFlags, CPoint point)
 	
 	CButton::OnLButtonUp(nFlags, point);
 }
-
 
 void CCustomButton::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
