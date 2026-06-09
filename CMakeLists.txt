@@ -1,10 +1,19 @@
 cmake_minimum_required(VERSION 4.3.3)
 
 set(PROJECT_NAME "suffer2gether")
-project(${PROJECT_NAME})
+project(
+  ${PROJECT_NAME}
+  VERSION 1.2.0
+)
 
 
 if(WIN32)
+    configure_file(
+        "src/apps/windows/res/version.h.in"
+        ${CMAKE_BINARY_DIR}/generated/version.h
+        @ONLY
+    )
+
     add_library(ufmod_lib STATIC IMPORTED)
 
     set_target_properties(
@@ -42,6 +51,7 @@ if(WIN32)
         "src/core"
         "src/platform/windows"
         "src/apps/windows"
+        "${CMAKE_BINARY_DIR}/generated"
     )
 
     target_sources(
@@ -54,6 +64,7 @@ if(WIN32)
         "src/platform/windows/GameLocator.cpp"
         "src/core/CPatcher.cpp"
         "src/apps/windows/res/suffer2gether.rc"
+        "src/apps/windows/res/version.rc"
       )
 
     add_executable(${PROJECT_NAME}-cli)
@@ -72,6 +83,7 @@ if(WIN32)
           "src/platform/windows"
           "src/apps/windows"
           "src/apps/cli"
+          "${CMAKE_BINARY_DIR}/generated"
     )
 
     target_link_options(${PROJECT_NAME}-cli PRIVATE -static)
