@@ -6,9 +6,8 @@
 
 #include "CCustomButton.h"
 #include "CScreen.h"
-#include "CGreenHell.h"
-#include "CPatcher.h"
-
+#include "../../platform/windows/WindowsGameLocator.h"
+#include "../../core/CPatcher.h"
 
 class CMainWindow : public CFrameWnd
 {
@@ -25,7 +24,7 @@ protected:
 	CCustomButton* m_CmdExit;
 	CCustomButton* m_CmdPatch;
 	CScreen* m_Screen;
-	CGreenHell m_Greenhell;
+	WindowsGameLocator m_Greenhell;
 	CPatcher m_Patcher;
 	BOOL m_IsPatched;
 

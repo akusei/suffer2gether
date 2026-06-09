@@ -1,5 +1,5 @@
-#include "Global.h"
-#include "Resource.h"
+#include "../../core/global.h"
+#include "../../res/resource.h"
 
 #include <afxdlgs.h>
 #include <filesystem>

@@ -1,11 +1,10 @@
-#include "framework.h"
-#include "resource.h"
+#include "../../platform/windows/framework.h"
+#include "../../res/resource.h"
 #include <mmsystem.h>
 
 #include "CApp.h"
 #include "CMainWindow.h"
-#include "../includes/ufmod.h"
-
+#include "../../../includes/ufmod.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

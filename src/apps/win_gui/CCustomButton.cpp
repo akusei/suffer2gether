@@ -1,5 +1,5 @@
 #include "CCustomButton.h"
-#include "global.h"
+#include "../../core/global.h"
 
 using namespace Gdiplus;
 

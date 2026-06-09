@@ -2,8 +2,7 @@
 #ifndef CAPP_H
 #define CAPP_H
 
-#include "framework.h"
-
+#include "../../platform/windows/framework.h"
 
 class CApp : public CWinApp
 {
