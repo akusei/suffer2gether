@@ -8,6 +8,7 @@
 #include <vector>
 #include <cstdint>
 
+
 class CPatcher
 {
 public:
@@ -28,7 +29,7 @@ protected:
 	std::filesystem::path m_Filename;
 	std::fstream m_File;
 	uint8_t* m_Buffer;
-	uint32_t m_DataSize;
+	std::streamsize m_DataSize;
 	std::string m_LastError;
 
 private:
