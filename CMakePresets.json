@@ -14,10 +14,7 @@
       },
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe",
-        "CMAKE_CXX_STANDARD": "26",
-        "CMAKE_MFC_FLAG": "1",
-        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+        "CMAKE_CXX_COMPILER": "cl.exe"
       },
       "condition": {
         "type": "equals",
@@ -30,14 +27,18 @@
       "displayName": "x86 Debug",
       "description": "Target Windows (32-bit) with the Visual Studio development environment. (Debug)",
       "inherits": "windows-base",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
     },
     {
       "name": "windows-x86-release",
       "displayName": "x86 Release",
       "description": "Target Windows (32-bit) with the Visual Studio development environment. (RelWithDebInfo)",
       "inherits": "windows-base",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
     },
     {
       "name": "linux-base",
@@ -47,7 +48,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
-        "CMAKE_CXX_STANDARD": "26" 
+        "CMAKE_CXX_STANDARD": "26"
       },
       "condition": {
         "type": "equals",
@@ -56,36 +57,35 @@
       }
     },
     {
-      "name": "x86-release",
-      "displayName": "x86 Release",
-      "description": "Target Linux (32-bit)",
+      "name": "linux-release",
+      "displayName": "Native Linux Release",
+      "description": "Target Linux",
       "inherits": "linux-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
-      "name": "x86-debug",
-      "displayName": "x86 Debug",
-      "description": "Target Linux (32-bit)",
+      "name": "linux-debug",
+      "displayName": "Native Linux Debug",
+      "description": "Target Linux",
       "inherits": "linux-base",
       "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
     },
     {
-      "name": "musl-x86-release",
-      "displayName": "Musl x86 Release",
-      "description": "Target Linux (32-bit)",
+      "name": "musl-x86_64-release",
+      "displayName": "Musl x86_64 Release",
+      "description": "Target Linux",
       "inherits": "linux-base",
+      "toolchainFile": "cmake/toolchains/musl-x86_64.cmake",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_C_COMPILER": "x86_64-linux-musl-gcc",
-        "CMAKE_CXX_COMPILER": "x86_64-linux-musl-g++"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
-      "name": "musl-x86-debug",
-      "displayName": "Musl x86 Debug",
-      "description": "Target Linux (32-bit)",
+      "name": "musl-x86_64-debug",
+      "displayName": "Musl x86_64 Debug",
+      "description": "Target Linux",
       "inherits": "linux-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
