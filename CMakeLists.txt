@@ -9,8 +9,20 @@ project(
 
 if(WIN32)
     configure_file(
-        "src/apps/windows/res/version.h.in"
-        ${CMAKE_BINARY_DIR}/generated/version.h
+        "src/apps/windows/res/version.rc.in"
+        "${CMAKE_BINARY_DIR}/generated/version.rc"
+        @ONLY
+    )
+
+    configure_file(
+        "src/apps/windows/res/cli.rc.in"
+        "${CMAKE_BINARY_DIR}/generated/cli.rc"
+        @ONLY
+    )
+
+    configure_file(
+        "src/apps/windows/res/suffer2gether.rc.in"
+        "${CMAKE_BINARY_DIR}/generated/suffer2gether.rc"
         @ONLY
     )
 
@@ -51,7 +63,6 @@ if(WIN32)
         "src/core"
         "src/platform/windows"
         "src/apps/windows"
-        "${CMAKE_BINARY_DIR}/generated"
     )
 
     target_sources(
@@ -63,8 +74,8 @@ if(WIN32)
         "src/apps/windows/CScreen.cpp"
         "src/platform/windows/GameLocator.cpp"
         "src/core/CPatcher.cpp"
-        "src/apps/windows/res/suffer2gether.rc"
-        "src/apps/windows/res/version.rc"
+        "${CMAKE_BINARY_DIR}/generated/suffer2gether.rc"
+        "${CMAKE_BINARY_DIR}/generated/version.rc"
       )
 
     add_executable(${PROJECT_NAME}-cli)
@@ -83,7 +94,6 @@ if(WIN32)
           "src/platform/windows"
           "src/apps/windows"
           "src/apps/cli"
-          "${CMAKE_BINARY_DIR}/generated"
     )
 
     target_link_options(${PROJECT_NAME}-cli PRIVATE -static)
@@ -94,7 +104,8 @@ if(WIN32)
           "src/apps/cli/main.cpp"
           "src/core/CPatcher.cpp"
           "src/platform/windows/GameLocator.cpp"
-          "src/apps/windows/res/cli.rc"
+          "${CMAKE_BINARY_DIR}/generated/version.rc"
+          "${CMAKE_BINARY_DIR}/generated/cli.rc"
     )
 elseif(UNIX)
     add_executable(${PROJECT_NAME})
