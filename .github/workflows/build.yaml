@@ -15,6 +15,7 @@ jobs:
           cd /tmp
           curl -L -O https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
           tar -zxvf ./cmake-4.3.3-linux-x86_64.tar.gz
+          mkdir -p /usr/local/cmake
           mv ./cmake-4.3.3-linux-x86_64/* /usr/local/cmake/
           rm -rf ./cmake*
 
