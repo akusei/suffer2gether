@@ -19,7 +19,7 @@ jobs:
           rm -rf ./cmake*
 
       - name: Check out repository code
-        uses: actions/checkout@latest
+        uses: actions/checkout@v6
       
       - name: Debug Environment
         run: |
