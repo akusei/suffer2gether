@@ -15,9 +15,26 @@ jobs:
           cd /tmp
           curl -L -O https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
           tar -zxvf ./cmake-4.3.3-linux-x86_64.tar.gz
-          mkdir -p /usr/local/cmake
-          mv ./cmake-4.3.3-linux-x86_64/* /usr/local/cmake/
+          sudo mkdir -p /usr/local/cmake
+          sudo mv ./cmake-4.3.3-linux-x86_64/* /usr/local/cmake/
           rm -rf ./cmake*
+
+      - name: Install Ninja
+        run: |
+          cd /tmp
+          curl -L -O https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip
+          unzip ./ninja-linux.zip
+          sudo mv ./ninja /usr/bin/
+          rm -rf ./ninja*
+
+      - name: Install Musl Toolchain
+        run: |
+          cd /tmp
+          curl -L -O https://musl.cc/x86_64-w64-mingw32-cross.tgz
+          tar -zxvf ./x86_64-w64-mingw32-cross.tgz
+          sudo mkdir -p /usr/local/musl-cross
+          sudo mv ./x86_64-w64-mingw32-cross/* /usr/local/musl-cross/
+          rm -rf ./x86_64-w64-mingw32-cross*
 
       - name: Check out repository code
         uses: actions/checkout@v6
