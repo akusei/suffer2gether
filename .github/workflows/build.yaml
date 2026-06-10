@@ -1,0 +1,28 @@
+---
+name: Build Linux
+run-name: ${{ github.actor }} test
+on:
+  - pull_request
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set PATH
+        run: echo "export PATH=\$PATH:/usr/local/cmake/bin:/usr/local/musl-cross" >> $GITHUB_ENV
+      
+      - name: Install CMake
+        run: |
+          cd /tmp
+          curl -L -O https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
+          tar -zxvf ./cmake-4.3.3-linux-x86_64.tar.gz
+          mv ./cmake-4.3.3-linux-x86_64/* /usr/local/cmake/
+          rm -rf ./cmake*
+
+      - name: Check out repository code
+        uses: actions/checkout@latest
+      
+      - name: Debug Environment
+        run: |
+          echo "PATH: $PATH"
+          echo "SHELL: $SHELL"
+        shell: bash
