@@ -62,7 +62,7 @@ jobs:
 
       - name: Debug
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+          . "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
           cmake --version
           ninja --version
           cl --version
