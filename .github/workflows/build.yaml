@@ -16,7 +16,7 @@ jobs:
       - name: Install CMake
         run: |
           curl -sS -L -o /tmp/cmake.tgz https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
-          tar -zxvf ./cmake.tgz -C /tmp
+          tar -zxvf /tmp/cmake.tgz -C /tmp
           sudo mkdir -p /usr/local/cmake
           sudo mv /tmp/cmake-4.3.3-linux-x86_64/* /usr/local/cmake/
 
@@ -28,7 +28,7 @@ jobs:
       - name: Install Zig
         run: |
           curl -sS -L -o /tmp/zig.tar.xz https://ziglang.org/builds/zig-x86_64-linux-0.17.0-dev.813+2153f8143.tar.xz
-          sudo mkdir /usr/local/zig
+          sudo mkdir -p /usr/local/zig
           tar -xvf /tmp/zig.tar.xz -C /tmp
           sudo mv /tmp/zig-x86_64-linux-0.17.0-dev.813+2153f8143/* /usr/local/zig
       
