@@ -1,9 +1,9 @@
-#---
-#name: Build Linux
-#run-name: ${{ github.actor }} test
-#on:
-#  - pull_request
-#jobs:
+---
+name: Build Linux
+run-name: ${{ github.actor }} test
+on:
+  - pull_request
+jobs:
 #  build-linux:
 #    runs-on: ubuntu-latest
 #    steps:
@@ -37,29 +37,35 @@
 #        run: |
 #          cmake --preset static-release -B out
 #          cmake --build out
-#  
-#  build-windows:
-#    runs-on: windows-2025-vs2026
-#    steps:
-#      - name: Check out repository code
-#        uses: actions/checkout@v6
-#
-#      - name: Set PATH
-#        run: |
-#          echo "/usr/local/cmake/bin:/usr/local/zig:\$PATH" > $GITHUB_PATH
-#
-#      - name: Install CMake
-#        run: |
-#          Invoke-WebRequest -Uri https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-windows-x86_64.zip -OutFile Env::Temp\cmake.zip
-#          7z x cmake.zip -oc:\outputdir
-#
-#      - name: Install Ninja
-#        run: |
-#          Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile ninja.zip
-#          7z x ninja.zip -oc:\outputdir
-#
+
+  build-windows:
+    runs-on: windows-2025-vs2026
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Set PATH
+        run: |
+          echo "$env:RUNNER_TEMP\cmake\bin;$env:RUNNER_TEMP\ninja;$env:PATH" > $GITHUB_PATH
+
+      - name: Install CMake
+        run: |
+          invoke-webrequest -uri https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-windows-x86_64.zip -outfile "$env:RUNNER_TEMP\cmake.zip"
+          7z x cmake.zip -o"$Env:RUNNER_TEMP\cmake"
+
+      - name: Install Ninja
+        run: |
+          Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile ninja.zip
+          7z x ninja.zip -oc:\outputdir
+
+      - name: Debug
+        run: |
+          echo $env:PATH
+          cmake --version
+          ninja --version
+          cl --version
+
 #      - name: Build release
 #        run: |
 #          cmake --preset windows-x86-release -B out
 #          cmake --build out
-#
