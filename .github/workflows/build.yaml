@@ -44,11 +44,11 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v6
 
-      - name: Set PATH
-        run: |
-          echo "$env:RUNNER_TEMP\cmake\bin" >> $GITHUB_PATH
-          echo "$env:RUNNER_TEMP\ninja" >> $GITHUB_PATH
-          echo "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\bin\Hostx86\x86" >> $GITHUB_PATH
+      # - name: Set PATH
+      #   run: |
+      #     echo "$env:RUNNER_TEMP\cmake\bin" >> $GITHUB_PATH
+      #     echo "$env:RUNNER_TEMP\ninja" >> $GITHUB_PATH
+      #     echo "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\14.51.36231\bin\Hostx86\x86" >> $GITHUB_PATH
 
       - name: Install CMake
         run: |
@@ -62,6 +62,7 @@ jobs:
 
       - name: Debug
         run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
           cmake --version
           ninja --version
           cl --version
