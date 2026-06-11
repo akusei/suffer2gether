@@ -47,32 +47,39 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v6
 
-      - name: Set PATH
-        run: |
-          echo "%RUNNER_TEMP%\cmake\bin" >> $GITHUB_PATH
-          echo "%RUNNER_TEMP%\ninja" >> $GITHUB_PATH
+# - name: Set PATH
+#   run: |
+#     echo "%RUNNER_TEMP%\cmake\bin" >> $GITHUB_PATH
+#     echo "%RUNNER_TEMP%\ninja" >> $GITHUB_PATH
 
-      - name: Install CMake
-        shell: powershell
-        run: |
-          invoke-webrequest -uri https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-windows-x86_64.zip -outfile "$env:RUNNER_TEMP\cmake.zip"
-          7z x "$env:RUNNER_TEMP\cmake.zip" -o"$env:RUNNER_TEMP\cmake"
+# - name: Cache Cmake
+#   id: choco-cache
+#   uses: actions/cache@v4
+#   with:
+#     path: %RUNNER_TEMP%\cmake
+#     key: ${{ runner.os }}-choco-lib-${{ hashFiles('**/*.csproj') }} # Update key when dependencies change
 
-      - name: Install Ninja
-        shell: powershell
-        run: |
-          Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile "$env:RUNNER_TEMP\ninja.zip"
-          7z x "$env:RUNNER_TEMP\ninja.zip" -o"$env:RUNNER_TEMP\ninja"
 
-      - name: Debug
-        run: |
-          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-          echo %PATH%
-          cmake --version
-          ninja --version
-          where cmake
-          where ninja
-      # - name: Build release
+# - name: Install CMake
+#   shell: powershell
+#   run: |
+#     invoke-webrequest -uri https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-windows-x86_64.zip -outfile "$env:RUNNER_TEMP\cmake.zip"
+#     7z x "$env:RUNNER_TEMP\cmake.zip" -o"$env:RUNNER_TEMP\cmake"
+
+# - name: Install Ninja
+#   shell: powershell
+#   run: |
+#     Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile "$env:RUNNER_TEMP\ninja.zip"
+#     7z x "$env:RUNNER_TEMP\ninja.zip" -o"$env:RUNNER_TEMP\ninja"
+
+      # - name: Debug
       #   run: |
-      #     cmake --preset windows-x86-release -B out
-      #     cmake --build out
+      #     call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+      #     echo %PATH%
+      #     cmake --version
+      #     ninja --version
+
+      - name: Build release
+        run: |
+          cmake --preset windows-x86-release -B out
+          cmake --build out
