@@ -7,8 +7,11 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
       - name: Set PATH
-        run: echo "export PATH=\$PATH:/usr/local/cmake/bin:/usr/local/musl-cross" >> $GITHUB_ENV
+        run: echo "export PATH=\$PATH:/usr/local/cmake/bin" >> $GITHUB_ENV
       
       - name: Install CMake
         run: |
@@ -27,20 +30,16 @@ jobs:
           sudo mv ./ninja /usr/bin/
           rm -rf ./ninja*
 
-      - name: Install Musl Toolchain
+      - name: Install Zig
         run: |
-          cd /tmp
-          curl -sS -L -O https://musl.cc/x86_64-linux-musl-cross.tgz
-          tar -zxvf ./x86_64-linux-musl-cross.tgz
-          sudo mkdir -p /usr/local/musl-cross
-          sudo mv ./x86_64-linux-musl-cross/* /usr/local/musl-cross/
-          rm -rf ./x86_64-linux-musl-cross*
-
-      - name: Check out repository code
-        uses: actions/checkout@v6
+          sudo apt-get update
+          sudo apt-get install -qy zig
       
       - name: Debug Environment
         run: |
+          cmake --version
+          ninja --version
+          zig --version
           echo "PATH: $PATH"
           echo "SHELL: $SHELL"
         shell: bash
