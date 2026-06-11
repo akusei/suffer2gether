@@ -73,24 +73,13 @@
       "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
     },
     {
-      "name": "musl-x86_64-release",
+      "name": "static-release",
       "displayName": "Musl x86_64 Release",
       "description": "Target Linux",
       "inherits": "linux-base",
-      "toolchainFile": "cmake/toolchains/musl-x86_64.cmake",
+      "toolchainFile": "cmake/toolchains/x86_64-linux-musl.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "musl-x86_64-debug",
-      "displayName": "Musl x86_64 Debug",
-      "description": "Target Linux",
-      "inherits": "linux-base",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_C_COMPILER": "x86_64-linux-musl-gcc",
-        "CMAKE_CXX_COMPILER": "x86_64-linux-musl-g++"
       }
     }
   ]
