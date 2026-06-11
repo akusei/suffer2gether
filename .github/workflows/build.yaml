@@ -46,7 +46,9 @@ jobs:
 
       - name: Set PATH
         run: |
-          echo "$env:RUNNER_TEMP\cmake\bin;$env:RUNNER_TEMP\ninja;$env:PATH" > $GITHUB_PATH
+          echo "$env:RUNNER_TEMP\cmake\bin" >> $GITHUB_PATH
+          echo "$env:RUNNER_TEMP\ninja" >> $GITHUB_PATH
+          echo "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\18.6.11819.183\bin\Hostx86\x86"
 
       - name: Install CMake
         run: |
@@ -56,7 +58,7 @@ jobs:
       - name: Install Ninja
         run: |
           Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile "$env:RUNNER_TEMP\ninja.zip"
-          7z x "$env:RUNNER_TEMP\ninja.zip" -oc:\outputdir
+          7z x "$env:RUNNER_TEMP\ninja.zip" -o"$env:RUNNER_TEMP\ninja"
 
       - name: Debug
         run: |
