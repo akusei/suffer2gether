@@ -11,10 +11,12 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Set PATH
-        run: echo "export PATH=/usr/local/cmake/bin:/usr/local/zig:\$PATH" >> $GITHUB_ENV
+        run: |
+          echo "/usr/local/cmake/bin:/usr/local/zig:\$PATH" > $GITHUB_PATH
       
       - name: Install CMake
         run: |
+          sudo apt-get remove -qy cmake
           curl -sS -L -o /tmp/cmake.tgz https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
           tar -zxvf /tmp/cmake.tgz -C /tmp
           sudo mkdir -p /usr/local/cmake
