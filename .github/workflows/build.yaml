@@ -60,14 +60,13 @@ jobs:
           Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile "$env:RUNNER_TEMP\ninja.zip"
           7z x "$env:RUNNER_TEMP\ninja.zip" -o"$env:RUNNER_TEMP\ninja"
 
-      # - name: Debug
-      #   run: |
-      #     echo $env:PATH
-      #     cmake --version
-      #     ninja --version
-      #     cl --version
-
-      - name: Build release
+      - name: Debug
         run: |
-          cmake --preset windows-x86-release -B out
-          cmake --build out
+          dir C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Tools\MSVC\
+          cmake --version
+          ninja --version
+
+      # - name: Build release
+      #   run: |
+      #     cmake --preset windows-x86-release -B out
+      #     cmake --build out
