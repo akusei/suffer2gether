@@ -34,9 +34,9 @@ jobs:
       
       - name: Debug Environment
         run: |
+          echo "PATH: $PATH"
+          echo "SHELL: $SHELL"
           cmake --version
           ninja --version
           zig --version
-          echo "PATH: $PATH"
-          echo "SHELL: $SHELL"
         shell: bash
