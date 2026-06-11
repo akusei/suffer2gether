@@ -16,7 +16,6 @@ jobs:
       
       - name: Install CMake
         run: |
-          sudo apt-get remove -qy cmake
           curl -sS -L -o /tmp/cmake.tgz https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
           tar -zxvf /tmp/cmake.tgz -C /tmp
           sudo mkdir -p /usr/local/cmake
@@ -34,11 +33,7 @@ jobs:
           tar -xvf /tmp/zig.tar.xz -C /tmp
           sudo mv /tmp/zig-x86_64-linux-0.17.0-dev.813+2153f8143/* /usr/local/zig
       
-      - name: Debug Environment
+      - name: Build release
         run: |
-          echo "PATH: $PATH"
-          echo "SHELL: $SHELL"
-          cmake --version
-          ninja --version
-          zig --version
-        shell: bash
+          cmake --preset static-release -B out
+          cmake --build out
