@@ -67,7 +67,7 @@ jobs:
       #     ninja --version
       #     cl --version
 
-     - name: Build release
-       run: |
-         cmake --preset windows-x86-release -B out
-         cmake --build out
+      - name: Build release
+        run: |
+          cmake --preset windows-x86-release -B out
+          cmake --build out
