@@ -53,21 +53,21 @@ jobs:
       - name: Install CMake
         run: |
           invoke-webrequest -uri https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-windows-x86_64.zip -outfile "$env:RUNNER_TEMP\cmake.zip"
-          7z x "$env:RUNNER_TEMP\cmake.zip" -o"$Env:RUNNER_TEMP\cmake"
+          7z x "$env:RUNNER_TEMP\cmake.zip" -o"$env:RUNNER_TEMP\cmake"
 
       - name: Install Ninja
         run: |
           Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile "$env:RUNNER_TEMP\ninja.zip"
           7z x "$env:RUNNER_TEMP\ninja.zip" -o"$env:RUNNER_TEMP\ninja"
 
-      - name: Debug
-        run: |
-          echo $env:PATH
-          cmake --version
-          ninja --version
-          cl --version
+      # - name: Debug
+      #   run: |
+      #     echo $env:PATH
+      #     cmake --version
+      #     ninja --version
+      #     cl --version
 
-#      - name: Build release
-#        run: |
-#          cmake --preset windows-x86-release -B out
-#          cmake --build out
+     - name: Build release
+       run: |
+         cmake --preset windows-x86-release -B out
+         cmake --build out
