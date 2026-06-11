@@ -55,7 +55,7 @@ jobs:
 
       - name: Install Ninja
         run: |
-          Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile ninja.zip
+          Invoke-WebRequest -Uri  https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip -OutFile "$env:RUNNER_TEMP\ninja.zip"
           7z x "$env:RUNNER_TEMP\ninja.zip" -oc:\outputdir
 
       - name: Debug
