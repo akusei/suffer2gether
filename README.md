@@ -41,22 +41,19 @@ Linux:
 
 #### Windows
 * Windows 10/11
-* Visual Studio Build Tools 2022 or later (MSVC toolchain installed)
-* Cmake 4.33+
-* Ninja build system
-* Windows SDK
-* Git
+* [Visual Studio Build Tools 2022 or later (requires MFC component)](https://aka.ms/vs/stable/vs_BuildTools.exe)
+* [Cmake 4.33+](https://cmake.org/download/)
+* [Ninja build system](https://ninja-build.org/)
+* [Windows SDK](https://learn.microsoft.com/en-us/windows/apps/windows-sdk/downloads)
 
 #### Linux
 * GCC or Clang for native Linux builds
-* OR musl cross toolchain for static releases
-  * x86_64-linux-musl-gcc
-  * x86_64-linux-musl-g++
-* Cmake 4.33+
-* Ninja build system
-* Git
+* OR [zig](https://ziglang.org/) for static releases
+* [Cmake 4.33+](https://cmake.org/download/)
+* [Ninja build system](https://ninja-build.org/)
 
-For musl static builds (release binaries distributed via GitHub Releases), ensure the musl toolchain is installed and available in PATH.
+For musl static builds (release binaries distributed via GitHub Releases), ensure [zig](https://ziglang.org/) is installed and available in PATH.
+A Dockerfile and small shell script are available in the `docker` directory. The script will build the image if needed and build the static linux release binary.
 
 ---
 
@@ -98,9 +95,9 @@ cmake --preset linux-release -B out
 cmake --build out
 ```
 
-If you want a release binary that can run on many different Linux distros, use the musl static build:
+If you want a release binary that can run on many different Linux distros, use the static release build:
 ```bash
-cmake --preset musl-x86_64-release -B out
+cmake --preset static-release -B out
 cmake --build out
 ```
 
@@ -110,11 +107,6 @@ cmake --preset linux-debug -B out
 cmake --build out
 ```
 
-If you want a debug binary that can run on many different Linux distros, use the musl static build:
-```bash
-cmake --preset musl-x86_64-debug -B out
-cmake --build out
-```
 
 ---
 ## Build Presets Summary
@@ -124,8 +116,7 @@ cmake --build out
 |windows-x86-release|Windows|Release|MFC GUI + CLI|
 |linux-debug|Linux|Debug|Native dynamically linked CLI|
 |linux-release|Linux|Release|Native dynamically linked CLI|
-|musl-x86_64-debug|Linux|Debug|musl toolchain CLI|
-|linux-debug|Linux|Debug|Statically linked distribution CLI|
+|static-release|Linux|Release|musl toolchain CLI|
 
 ## Editing Resources
 If you want to edit the buttons or font you will need to download and install the fonts listed in the [3rd Party Credit](#3rd-party-credit) section of this readme.
