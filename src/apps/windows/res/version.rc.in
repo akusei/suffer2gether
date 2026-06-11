@@ -1,0 +1,35 @@
+#include "verrsrc.h"
+
+
+1 VERSIONINFO
+    FILEVERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+    PRODUCTVERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+    FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+    FILEFLAGS 0xbL
+#else
+    FILEFLAGS 0xaL
+#endif
+    FILEOS 0x40004L
+    FILETYPE 0x1L
+    FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Nathan Martini"
+            VALUE "FileDescription", "Green Hell Multiplayer Patch"
+            VALUE "FileVersion", "@PROJECT_VERSION@.0"
+            VALUE "InternalName", "suffer2gether.exe"
+            VALUE "LegalCopyright", "Copyright (C) 2020"
+            VALUE "OriginalFilename", "suffer2gether.exe"
+            VALUE "ProductName", "Suffer2Gether"
+            VALUE "ProductVersion", "@PROJECT_VERSION@.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

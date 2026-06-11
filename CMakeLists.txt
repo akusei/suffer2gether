@@ -1,10 +1,31 @@
 cmake_minimum_required(VERSION 4.3.3)
 
 set(PROJECT_NAME "suffer2gether")
-project(${PROJECT_NAME})
+project(
+  ${PROJECT_NAME}
+  VERSION 1.2.0
+)
 
 
 if(WIN32)
+    configure_file(
+        "src/apps/windows/res/version.rc.in"
+        "${CMAKE_BINARY_DIR}/generated/version.rc"
+        @ONLY
+    )
+
+    configure_file(
+        "src/apps/windows/res/cli.rc.in"
+        "${CMAKE_BINARY_DIR}/generated/cli.rc"
+        @ONLY
+    )
+
+    configure_file(
+        "src/apps/windows/res/suffer2gether.rc.in"
+        "${CMAKE_BINARY_DIR}/generated/suffer2gether.rc"
+        @ONLY
+    )
+
     add_library(ufmod_lib STATIC IMPORTED)
 
     set_target_properties(
@@ -14,6 +35,19 @@ if(WIN32)
     )
 
     add_executable(${PROJECT_NAME} WIN32)
+    set_target_properties(
+      ${PROJECT_NAME}
+      PROPERTIES
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+        USE_MFC TRUE
+        CXX_STANDARD 26
+    )
+
+    set_property(
+      TARGET ${PROJECT_NAME}
+      PROPERTY 
+        USE_MFC TRUE
+    )
 
     target_link_libraries(
       ${PROJECT_NAME}
@@ -40,10 +74,18 @@ if(WIN32)
         "src/apps/windows/CScreen.cpp"
         "src/platform/windows/GameLocator.cpp"
         "src/core/CPatcher.cpp"
-        "src/apps/windows/res/suffer2gether.rc"
+        "${CMAKE_BINARY_DIR}/generated/suffer2gether.rc"
+        "${CMAKE_BINARY_DIR}/generated/version.rc"
       )
 
     add_executable(${PROJECT_NAME}-cli)
+    set_target_properties(
+      ${PROJECT_NAME}-cli
+      PROPERTIES
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+        USE_MFC FALSE
+        CXX_STANDARD 26
+    )
 
     target_include_directories(
         ${PROJECT_NAME}-cli
@@ -62,7 +104,8 @@ if(WIN32)
           "src/apps/cli/main.cpp"
           "src/core/CPatcher.cpp"
           "src/platform/windows/GameLocator.cpp"
-          "src/apps/windows/res/version.rc"
+          "${CMAKE_BINARY_DIR}/generated/version.rc"
+          "${CMAKE_BINARY_DIR}/generated/cli.rc"
     )
 elseif(UNIX)
     add_executable(${PROJECT_NAME})
@@ -74,8 +117,6 @@ elseif(UNIX)
           "src/platform/linux"
           "src/apps/cli"
     )
-
-    target_link_options(${PROJECT_NAME} PRIVATE -static)
 
     target_sources(
         ${PROJECT_NAME}

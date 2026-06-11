@@ -1,0 +1,18 @@
+#include "resource.h"
+#include "afxres.h"
+
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+
+IDI_MAIN                ICON                    "@CMAKE_SOURCE_DIR@\\resources\\icon.ico"
+IDB_BACKGROUND          BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\background.bmp"
+IDB_EXITUP              BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\button_exit_up.bmp"
+IDB_EXITDOWN            BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\button_exit_down.bmp"
+IDB_EXITHOVER           BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\button_exit_hover.bmp"
+IDB_PATCHDOWN           BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\button_patch_down.bmp"
+IDB_PATCHHOVER          BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\button_patch_hover.bmp"
+IDB_PATCHUP             BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\button_patch_up.bmp"
+IDB_FONT                BITMAP                  "@CMAKE_SOURCE_DIR@\\resources\\font.bmp"
+
+IDR_MUSIC               RCDATA                  "@CMAKE_SOURCE_DIR@\\resources\\music3.xm"
