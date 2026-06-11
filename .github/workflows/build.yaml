@@ -70,7 +70,8 @@ jobs:
           echo %PATH%
           cmake --version
           ninja --version
-          cl /Bv
+          where cmake
+          where ninja
       # - name: Build release
       #   run: |
       #     cmake --preset windows-x86-release -B out
