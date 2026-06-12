@@ -101,9 +101,9 @@ jobs:
           VERSION_PATCH: ${{ needs.version.outputs.version_patch }}
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-          echo %VERSION_MAJOR% > version.txt
-          echo %VERSION_MINOR% >> version.txt
-          echo %VERSION_PATCH% >> version.txt
+          echo VERSION_MAJOR %VERSION_MAJOR% > version.txt
+          echo VERSION_MINOR %VERSION_MINOR% >> version.txt
+          echo VERSION_PATCH %VERSION_PATCH% >> version.txt
           cmake --preset windows-x86-release -B out
           cmake --build out
 
