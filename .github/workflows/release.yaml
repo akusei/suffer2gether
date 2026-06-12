@@ -9,60 +9,52 @@ on:
 # TODO: I need this to run only if it's on main and a tag like v1.0.0
 
 jobs:
-  test:
+  build:
+    if: ${{ github.event.}}
+    uses: ./.github/workflows/build.yaml
+    with:
+      upload-artifacts: true
+      version: ${{ github.ref_name }}
+
+
+  package-and-release:
+    if: ${{ needs.build.outputs.is_valid }}
     runs-on: ubuntu-latest
+    needs: build
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: release
+          merge-multiple: true
+
+      - name: Create version file
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          ...
+
+      - name: Package Linux binaries
+        env:
+          RELEASE_FILE: suffer2gether-${{ github.ref_name }}-linux-x86_64.tgz
+        run: |
+          cd release
+          chmod a+x ./suffer2gether
+          tar -zcvf ./${RELEASE_FILE} ./suffer2gether
+          sha256sum ${RELEASE_FILE} >> SHA256SUMS
+
+      - name: Package Windows binaries
+        env:
+          RELEASE_FILE: suffer2gether-${{ github.ref_name }}-windows-x86.zip
+        run: |
+          cd release
+          zip -9 -D ./${RELEASE_FILE} ./suffer2gether.exe ./suffer2gether-cli.exe
+          sha256sum ${RELEASE_FILE} >> SHA256SUMS
+
       - name: DEBUG
         run: |
-          echo ${{ github.event.head_ref }}
-          echo ${{ github.ref_name }}
-          echo ${{ github.ref_type }}
-          echo ${{ toJSON(github) }}
-  # build:
-  #   if: ${{ github.event.}}
-  #   uses: ./.github/workflows/build.yaml
-  #   with:
-  #     upload-artifacts: true
-
-
-  # package-and-release:
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - build
-  #   steps:
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v8
-  #       with:
-  #         path: release
-  #         merge-multiple: true
-
-  #     - name: Create version file
-  #       env:
-  #         VERSION: ${{ github.ref_name }}
-  #       run: |
-  #         ...
-
-  #     - name: Package Linux binaries
-  #       env:
-  #         RELEASE_FILE: suffer2gether-${{ github.ref_name }}-linux-x86_64.tgz
-  #       run: |
-  #         cd release
-  #         chmod a+x ./suffer2gether
-  #         tar -zcvf ./${RELEASE_FILE} ./suffer2gether
-  #         sha256sum ${RELEASE_FILE} >> SHA256SUMS
-
-  #     - name: Package Windows binaries
-  #       env:
-  #         RELEASE_FILE: suffer2gether-${{ github.ref_name }}-windows-x86.zip
-  #       run: |
-  #         cd release
-  #         zip -9 -D ./${RELEASE_FILE} ./suffer2gether.exe ./suffer2gether-cli.exe
-  #         sha256sum ${RELEASE_FILE} >> SHA256SUMS
-
-  #     - name: DEBUG
-  #       run: |
-  #         ls -la ./release
-  #         cat ./release/SHA256SUMS
+          ls -la ./release
+          cat ./release/SHA256SUMS
 
   #     - name: Create release
   #       run:

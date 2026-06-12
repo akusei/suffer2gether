@@ -11,6 +11,9 @@ on:
       version:
         required: true
         type: string
+    outputs:
+      is_valid:
+        value: ${{ jobs.version.outputs.is_valid }}
 
 
 jobs:
