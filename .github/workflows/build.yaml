@@ -6,12 +6,10 @@ on:
   workflow_call:
     inputs:
       upload-artifacts:
-        required: false
-        default: false
+        required: true
         type: boolean
       version:
-        required: false
-        default: v1.0.0
+        required: true
         type: string
 
 
@@ -19,18 +17,17 @@ jobs:
   version:
     runs-on: ubuntu-latest
     outputs:
-      version_major: ${{ steps.get-version.outputs.version_major }}
-      version_minor: ${{ steps.get-version.outputs.version_minor }}
-      version_patch: ${{ steps.get-version.outputs.version_patch }}
-      is_valid: ${{ steps.get_version.outputs.is_valid }}
+      version_major: steps.get-version.outputs.version_major
+      version_minor: steps.get-version.outputs.version_minor
+      version_patch: steps.get-version.outputs.version_patch
+      is_valid: steps.get_version.outputs.is_valid
     steps:
       - name: Create version file
         id: get_version
         env:
-          VERSION: ${{ inputs.version }}
+          VERSION: case(inputs.version, inputs.version, 'v1.0.0')
         run: |
           echo VERSION ${VERSION}
-          echo TEST ${{ inputs.version }}
           if ! grep -q -Eo 'v[0-9]+\.[0-9]+\.[0-9]+'; then
             echo "is_valid=false" >> "$GITHUB_OUTPUT"
           else
@@ -47,10 +44,10 @@ jobs:
     steps:
       - name: DEBUG
         env:
-          VERSION_MAJOR: ${{ needs.version.outputs.version_major }}
-          VERSION_MINOR: ${{ needs.version.outputs.version_minor }}
-          VERSION_PATCH: ${{ needs.version.outputs.version_patch }}
-          IS_VALID: ${{ needs.version.outputs.is_valid }}
+          VERSION_MAJOR: needs.version.outputs.version_major
+          VERSION_MINOR: needs.version.outputs.version_minor
+          VERSION_PATCH: needs.version.outputs.version_patch
+          IS_VALID: needs.version.outputs.is_valid
         run: |
           echo VERSION_MAJOR $VERSION_MAJOR
           echo VERSION_MINOR $VERSION_MINOR
