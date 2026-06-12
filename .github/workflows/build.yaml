@@ -22,7 +22,7 @@ jobs:
       version_major: ${{ steps.get-version.outputs.version_major }}
       version_minor: ${{ steps.get-version.outputs.version_minor }}
       version_patch: ${{ steps.get-version.outputs.version_patch }}
-      is_valid: ${{ steps.get_version.outputs. }}
+      is_valid: ${{ steps.get_version.outputs.is_valid }}
     steps:
       - name: Create version file
         id: get_version
