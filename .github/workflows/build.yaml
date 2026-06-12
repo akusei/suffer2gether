@@ -50,27 +50,52 @@ jobs:
   
       - name: Set PATH
         run: |
-          echo "/usr/local/cmake/bin:/usr/local/zig:\$PATH" > $GITHUB_PATH
+          echo "~/.tools/cmake/bin:~/.tools/zig:~/.tools/ninja:\$PATH" > $GITHUB_PATH
       
+      - name: Cache CMake
+        id: linux-cmake-tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.tools/cmake
+          key: ${{ runner.os }}-cmake-4.3.3
+
+      - name: Cache Ninja
+        id: linux-ninja-tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.tools/ninja
+          key: ${{ runner.os }}-ninja-1.13.2
+
+      - name: Cache Zig
+        id: linux-zig-tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.tools/zig
+          key: ${{ runner.os }}-zig-0.17.0
+
       - name: Install CMake
+        if: steps.linux-cmake-tools.outputs.cache-hit != 'true'
         run: |
           curl -sS -L -o /tmp/cmake.tgz https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
           tar -zxvf /tmp/cmake.tgz -C /tmp
-          sudo mkdir -p /usr/local/cmake
-          sudo mv /tmp/cmake-4.3.3-linux-x86_64/* /usr/local/cmake/
+          sudo mkdir -p ~/.tools/cmake
+          sudo mv /tmp/cmake-4.3.3-linux-x86_64/* ~/.tools/cmake/
   
       - name: Install Ninja
+        if: steps.linux-ninja-tools.outputs.cache-hit != 'true'
         run: |
           curl -sS -L -o /tmp/ninja.zip https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip
-          sudo unzip -d /usr/bin /tmp/ninja.zip
+          sudo mkdir -p ~/.tools/ninja
+          sudo unzip -d ~/.tools/ninja /tmp/ninja.zip
   
       - name: Install Zig
+        if: steps.linux-zig-tools.outputs.cache-hit != 'true'
         run: |
           curl -sS -L -o /tmp/zig.tar.xz https://ziglang.org/builds/zig-x86_64-linux-0.17.0-dev.813+2153f8143.tar.xz
-          sudo mkdir -p /usr/local/zig
+          sudo mkdir -p ~/.tools/zig
           tar -xvf /tmp/zig.tar.xz -C /tmp
-          sudo mv /tmp/zig-x86_64-linux-0.17.0-dev.813+2153f8143/* /usr/local/zig
-      
+          sudo mv /tmp/zig-x86_64-linux-0.17.0-dev.813+2153f8143/* ~/.tools/zig/
+
       - name: Build release
         run: |
           cmake --preset static-release -B out
@@ -101,10 +126,10 @@ jobs:
           VERSION_MINOR: ${{ needs.version.outputs.version_minor }}
           VERSION_PATCH: ${{ needs.version.outputs.version_patch }}
         run: |
+          echo VERSION_MAJOR %VERSION_MAJOR% > version.txt
+          echo VERSION_MINOR %VERSION_MINOR% >> version.txt
+          echo VERSION_PATCH %VERSION_PATCH% >> version.txt
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-          echo VERSION_MAJOR %VERSION_MAJOR%
-          echo VERSION_MINOR %VERSION_MINOR%
-          echo VERSION_PATCH %VERSION_PATCH%
           cmake --preset windows-x86-release -B out
           cmake --build out
 

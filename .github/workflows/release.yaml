@@ -6,7 +6,6 @@ on:
     tags:
       - v*
 
-# TODO: I need this to run only if it's on main and a tag like v1.0.0
 
 jobs:
   build:
