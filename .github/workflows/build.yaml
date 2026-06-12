@@ -50,10 +50,10 @@ jobs:
           VERSION_PATCH: ${{ needs.version.outputs.version_patch }}
           IS_VALID: ${{ needs.version.outputs.is_valid }}
         run: |
-          echo VERSION_MAJOR %VERSION_MAJOR%
-          echo VERSION_MINOR %VERSION_MINOR%
-          echo VERSION_PATCH %VERSION_PATCH%
-          echo IS_VALID %IS_VALID%
+          echo VERSION_MAJOR $VERSION_MAJOR
+          echo VERSION_MINOR $VERSION_MINOR
+          echo VERSION_PATCH $VERSION_PATCH
+          echo IS_VALID $IS_VALID
 
   # build-linux:
   #   if: needs.version.outputs.is_valid == 'true'
