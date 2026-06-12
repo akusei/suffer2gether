@@ -27,12 +27,10 @@ jobs:
         env:
           VERSION: ${{ inputs.version || 'v1.0.0' }}
         run: |
-          if ! grep -q -Eo 'v[0-9]+\.[0-9]+\.[0-9]+'; then
-            echo "Version ${VERSION} tag is not valid"
-            echo "is_valid=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "Version ${VERSION} tag is valid"
+          if echo "${VERSION}" | grep -q -Eo 'v[0-9]+\.[0-9]+\.[0-9]+'; then
             echo "is_valid=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_valid=false" >> "$GITHUB_OUTPUT"
           fi
           echo ${VERSION} | awk -F'[v.]' '{print "version_major=" $2}' >> "$GITHUB_OUTPUT"
           echo ${VERSION} | awk -F'[v.]' '{print "version_minor=" $3}' >> "$GITHUB_OUTPUT"
