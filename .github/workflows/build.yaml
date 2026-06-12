@@ -26,7 +26,7 @@ jobs:
       is_valid: ${{ steps.get_version.outputs.is_valid }}
     steps:
       - name: Create version file
-        id: get_version
+        id: get-version
         env:
           VERSION: ${{ inputs.version || 'v1.0.0' }}
         run: |
