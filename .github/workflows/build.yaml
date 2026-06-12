@@ -125,6 +125,11 @@ jobs:
           tar -zcvf ./${RELEASE_FILE} ./suffer2gether
           sha256sum ./${RELEASE_FILE} >> SHA256SUMS
 
+      - name: DEBUG
+        run: |
+          ls -la ./release
+          cat ./release/SHA256SUMS
+
       - name: Package Windows binaries
         env:
           RELEASE_FILE: suffer2gether-${{ needs.version.outputs.version }}-windows-x86.zip
@@ -133,10 +138,10 @@ jobs:
           zip -9 -D ./${RELEASE_FILE} ./suffer2gether.exe ./suffer2gether-cli.exe
           sha256sum ./${RELEASE_FILE} >> SHA256SUMS
 
-      - name: DEBUG
-        run: |
-          ls -la ./release
-          cat ./release/SHA256SUMS
+      # - name: DEBUG
+      #   run: |
+      #     ls -la ./release
+      #     cat ./release/SHA256SUMS
         
   # TODO: switch this back to 'push'
   # release:
