@@ -40,7 +40,7 @@ jobs:
 
 
   build-linux:
-    if: "'${{ needs.version.outputs.is_valid }}' == 'true'"
+    if: needs.version.outputs.is_valid == 'true'"
     runs-on: ubuntu-latest
     needs: version
     steps:
@@ -76,7 +76,7 @@ jobs:
           cmake --build out
 
       - name: Upload Linux artifact
-        if: ${{ inputs.upload-artifacts }}
+        if: inputs.upload-artifacts
         uses: actions/upload-artifact@v7
         with:
           name: Linux artifact
@@ -84,7 +84,7 @@ jobs:
 
 
   build-windows:
-    if: "'${{ needs.version.outputs.is_valid }}' == 'true'"
+    if: needs.version.outputs.is_valid == 'true'"
     runs-on: windows-2025-vs2026
     needs: version
     defaults:
@@ -108,14 +108,14 @@ jobs:
           cmake --build out
 
       - name: Upload Windows MFC artifact
-        if: ${{ inputs.upload-artifacts }}
+        if: inputs.upload-artifacts
         uses: actions/upload-artifact@v7
         with:
           name: Windows MFC artifact
           path: out/suffer2gether.exe
 
       - name: Upload Windows CLI artifact
-        if: ${{ inputs.upload-artifacts }}
+        if: inputs.upload-artifacts
         uses: actions/upload-artifact@v7
         with:
           name: Windows CLI artifact
