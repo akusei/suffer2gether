@@ -40,7 +40,7 @@ jobs:
 
 
   build-linux:
-    if: '${{ needed.version.outputs.is_valid }}' == 'true'
+    if: "'${{ needed.version.outputs.is_valid }}' == 'true'"
     runs-on: ubuntu-latest
     needs: version
     steps:
