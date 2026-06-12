@@ -84,7 +84,7 @@ jobs:
 
 
   build-windows:
-    if: '${{ needed.version.outputs.is_valid }}' == 'true'
+    if: "'${{ needed.version.outputs.is_valid }}' == 'true'"
     runs-on: windows-2025-vs2026
     needs: version
     defaults:
