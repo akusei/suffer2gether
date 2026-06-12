@@ -8,7 +8,7 @@ on:
       upload-artifacts:
         required: false
         default: false
-        type: bool
+        type: boolean
 
 jobs:
   build-linux:
