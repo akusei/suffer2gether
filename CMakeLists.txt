@@ -1,9 +1,25 @@
 cmake_minimum_required(VERSION 4.3.3)
 
 set(PROJECT_NAME "suffer2gether")
+
+if(EXISTS "version.txt")
+	file(READ "version.txt" version_data)
+	string(REGEX MATCH "VERSION_MAJOR ([0-9]+)" _ "${version_data}")
+	set(VERSION_MAJOR "${CMAKE_MATCH_1}")
+	string(REGEX MATCH "VERSION_MINOR ([0-9]+)" _ "${version_data}")
+	set(VERSION_MINOR "${CMAKE_MATCH_1}")
+	string(REGEX MATCH "VERSION_PATCH ([0-9]+)" _ "${version_data}")
+	set(VERSION_PATCH "${CMAKE_MATCH_1}")
+else()
+	set(VERSION_MAJOR "1")
+	set(VERSION_MINOR "0")
+	set(VERSION_PATCH "0")
+endif()
+
+
 project(
   ${PROJECT_NAME}
-  VERSION 1.2.0
+  VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 )
 
 

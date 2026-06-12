@@ -1,0 +1,144 @@
+---
+name: Build Check
+run-name: Build
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      exists: ${{ steps.check-tag.outputs.exists }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Get version information
+        id: get-version
+        run: |
+          VERSION_MAJOR=$(awk '$1 == "VERSION_MAJOR" { print $2; exit }' version.txt)
+          VERSION_MINOR=$(awk '$1 == "VERSION_MINOR" { print $2; exit }' version.txt)
+          VERSION_PATCH=$(awk '$1 == "VERSION_PATCH" { print $2; exit }' version.txt)
+          echo "version=v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag exists
+        id: check-tag
+        run: |
+          if git rev-parse -q --verify "refs/tags/${{ steps.get-version.outputs.version }}"; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+  
+      - name: Set PATH
+        run: |
+          echo "/usr/local/cmake/bin:/usr/local/zig:\$PATH" > $GITHUB_PATH
+      
+      - name: Install CMake
+        run: |
+          curl -sS -L -o /tmp/cmake.tgz https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
+          tar -zxvf /tmp/cmake.tgz -C /tmp
+          sudo mkdir -p /usr/local/cmake
+          sudo mv /tmp/cmake-4.3.3-linux-x86_64/* /usr/local/cmake/
+  
+      - name: Install Ninja
+        run: |
+          curl -sS -L -o /tmp/ninja.zip https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip
+          sudo unzip -d /usr/bin /tmp/ninja.zip
+  
+      - name: Install Zig
+        run: |
+          curl -sS -L -o /tmp/zig.tar.xz https://ziglang.org/builds/zig-x86_64-linux-0.17.0-dev.813+2153f8143.tar.xz
+          sudo mkdir -p /usr/local/zig
+          tar -xvf /tmp/zig.tar.xz -C /tmp
+          sudo mv /tmp/zig-x86_64-linux-0.17.0-dev.813+2153f8143/* /usr/local/zig
+      
+      - name: Build release
+        run: |
+          cmake --preset static-release -B out
+          cmake --build out
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: Linux artifact
+          path: out/suffer2gether
+
+
+  build-windows:
+    runs-on: windows-2025-vs2026
+    defaults:
+      run:
+        shell: cmd
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Build release
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+          cmake --preset windows-x86-release -B out
+          cmake --build out
+
+      - name: Upload Windows MFC artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: Windows MFC artifact
+          path: out/suffer2gether.exe
+
+      - name: Upload Windows CLI artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: Windows CLI artifact
+          path: out/suffer2gether-cli.exe
+
+
+  # TODO: switch this back to 'push'
+  package-and-release:
+    if: >-
+      github.event_name == 'pull_request' &&
+      '${{ needs.version.outputs.exists }}' == 'false'
+    runs-on: ubuntu-latest
+    needs:
+      - version
+      - build-linux
+      - build-windows
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: release
+          merge-multiple: true
+
+      - name: Package Linux binaries
+        env:
+          RELEASE_FILE: suffer2gether-${{ needs.version.outputs.version }}-linux-x86_64.tgz
+        run: |
+          cd release
+          chmod a+x ./suffer2gether
+          tar -zcvf ./${RELEASE_FILE} ./suffer2gether
+          sha256sum ${RELEASE_FILE} >> SHA256SUMS
+
+      - name: Package Windows binaries
+        env:
+          RELEASE_FILE: suffer2gether-${{ needs.version.outputs.version }}-windows-x86.zip
+        run: |
+          cd release
+          zip -9 -D ./${RELEASE_FILE} ./suffer2gether.exe ./suffer2gether-cli.exe
+          sha256sum ${RELEASE_FILE} >> SHA256SUMS
+
+      - name: Create release
+        run:
+
+
+  #     gh release create <version> -F releasenotes.md --target main -t "title" 'file.zipdesc' 'file.zipdesc'
