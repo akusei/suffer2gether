@@ -27,12 +27,6 @@ jobs:
           path: release
           merge-multiple: true
 
-      - name: Create version file
-        env:
-          VERSION: ${{ github.ref_name }}
-        run: |
-          ...
-
       - name: Package Linux binaries
         env:
           RELEASE_FILE: suffer2gether-${{ github.ref_name }}-linux-x86_64.tgz
