@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-    if: ${{ github.event.}}
     uses: ./.github/workflows/build.yaml
     with:
       upload-artifacts: true
