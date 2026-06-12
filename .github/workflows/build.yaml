@@ -136,16 +136,20 @@ jobs:
           cd release
           zip -9 -D ./${RELEASE_FILE} ./suffer2gether.exe ./suffer2gether-cli.exe
           sha256sum ./${RELEASE_FILE} >> SHA256SUMS
+
+      - name: DEBUG
+        run: |
+          dir /a /s .\release
         
   # TODO: switch this back to 'push'
-  release:
-    if: >-
-      github.event_name == 'pull_request' &&
-      '${{ needs.version.outputs.exists }}' == 'false'
-    runs-on: ubuntu-latest
-    needs:
-      - version
-      - package
-    steps: []
+  # release:
+  #   if: >-
+  #     github.event_name == 'pull_request' &&
+  #     '${{ needs.version.outputs.exists }}' == 'false'
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - version
+  #     - package
+  #   steps: []
 
   #     gh release create <version> -F releasenotes.md --target main -t "title" 'file.zipdesc' 'file.zipdesc'
