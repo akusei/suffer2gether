@@ -95,17 +95,13 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Windows MFC artifact
-          path: out/build/windows-x86-release/suffer2gether.exe
+          path: out/suffer2gether.exe
 
       - name: Upload Windows CLI artifact
         uses: actions/upload-artifact@v7
         with:
           name: Windows CLI artifact
-          path: out/build/windows-x86-release/suffer2gether-cli.exe
-
-      - name: DEBUG
-        run: |
-          dir /a /s .\out
+          path: out/suffer2gether-cli.exe
 
 
   package:
@@ -139,7 +135,8 @@ jobs:
 
       - name: DEBUG
         run: |
-          dir /a /s .\release
+          ls -la ./release
+          cat ./release/SHA256SUMS
         
   # TODO: switch this back to 'push'
   # release:
