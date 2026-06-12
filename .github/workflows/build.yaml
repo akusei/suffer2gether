@@ -73,7 +73,6 @@ jobs:
         with:
           name: Linux artifact
           path: out/suffer2gether
-          archive: false
 
 
   build-windows:
@@ -115,6 +114,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           path: release
+          merge-multiple: true
 
       - name: Package Linux binaries
         env:
@@ -123,9 +123,9 @@ jobs:
           cd release
           chmod a+x ./suffer2gether
           tar -zcvf ./${RELEASE_FILE} ./suffer2gether
-          sha256sum ./${RELEASE_FILE} >> SHA256SUMS
+          sha256sum ${RELEASE_FILE} >> SHA256SUMS
 
-      - name: DEBUG
+      - name: DEBUG 1
         run: |
           ls -la ./release
           cat ./release/SHA256SUMS
@@ -136,12 +136,12 @@ jobs:
         run: |
           cd release
           zip -9 -D ./${RELEASE_FILE} ./suffer2gether.exe ./suffer2gether-cli.exe
-          sha256sum ./${RELEASE_FILE} >> SHA256SUMS
+          sha256sum ${RELEASE_FILE} >> SHA256SUMS
 
-      # - name: DEBUG
-      #   run: |
-      #     ls -la ./release
-      #     cat ./release/SHA256SUMS
+      - name: DEBUG 2
+        run: |
+          ls -la ./release
+          cat ./release/SHA256SUMS
         
   # TODO: switch this back to 'push'
   # release:
