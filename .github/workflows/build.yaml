@@ -44,10 +44,10 @@ jobs:
     steps:
       - name: DEBUG
         env:
-          VERSION_MAJOR: needs.version.outputs.version_major
-          VERSION_MINOR: needs.version.outputs.version_minor
-          VERSION_PATCH: needs.version.outputs.version_patch
-          IS_VALID: needs.version.outputs.is_valid
+          VERSION_MAJOR: ${{ needs.version.outputs.version_major }}
+          VERSION_MINOR: ${{ needs.version.outputs.version_minor }}
+          VERSION_PATCH: ${{ needs.version.outputs.version_patch }}
+          IS_VALID: ${{ needs.version.outputs.is_valid }}
         run: |
           echo VERSION_MAJOR $VERSION_MAJOR
           echo VERSION_MINOR $VERSION_MINOR
