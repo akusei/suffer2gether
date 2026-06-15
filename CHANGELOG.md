@@ -24,6 +24,7 @@ easier to build from source on different systems.
 
 - Renamed and reorganized files and directories.
 - Changed build system to CMake.
+- Changed from the Windows four-part version number to semantic versioning.
 
 ### Removed
 
