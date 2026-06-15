@@ -34,9 +34,13 @@ jobs:
           VERSION_MINOR: ${{ needs.build.outputs.version_minor }}
           VERSION_PATCH: ${{ needs.build.outputs.version_patch }}
         run: |
-          awk -v ver="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" \
-            '/^\[/ { if (found) { exit } if ($0 ~ "\\[" ver "\\]") { found=1 } } found' \
-            ./CHANGELOG.md > ./release_notes.md
+          if [ ! -f ./CHANGELOG.md ]; then
+            touch ./release_notes.md
+          else
+            awk -v ver="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" \
+              '/^\[/ { if (found) { exit } if ($0 ~ "\\[" ver "\\]") { found=1 } } found' \
+              ./CHANGELOG.md > ./release_notes.md
+          fi
 
       - name: Package Linux binaries
         env:
