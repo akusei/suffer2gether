@@ -42,7 +42,7 @@ jobs:
             touch ./release_notes.md
           else
             awk -v ver="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" \
-              '/^\[/ { if (found) { exit } if ($0 ~ "\\[" ver "\\]") { found=1 } } found' \
+              '/^## \[/ { if (found) { exit } if ($0 ~ "\\[" ver "\\]") { found=1 } } found' \
               ./CHANGELOG.md > ./release_notes.md
           fi
 
