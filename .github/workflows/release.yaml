@@ -38,7 +38,6 @@ jobs:
           VERSION_PATCH: ${{ needs.build.outputs.version_patch }}
         run: |
           if [ ! -f ./CHANGELOG.md ]; then
-            echo "NO CHANGELOG" 
             touch ./release_notes.md
           else
             awk -v ver="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" \
@@ -69,7 +68,6 @@ jobs:
           LINUX_FILE: suffer2gether-${{ github.ref_name }}-linux-x86_64.tgz
           WINDOWS_FILE: suffer2gether-${{ github.ref_name }}-windows-x86.zip
         run: |
-          cat ./release_notes.md
           gh release create "${{ github.ref_name }}" -F ./release_notes.md --title "${{ github.ref_name }}" \
             "./release/${LINUX_FILE}" \
             "./release/${WINDOWS_FILE}" \
