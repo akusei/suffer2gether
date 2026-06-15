@@ -67,6 +67,6 @@ jobs:
         run: |
           cd release
           gh release create "${{ github.ref_name }}" -F ./release_notes.md --title "${{ github.ref_name }}" \
-            './${LINUX_FILE}#Linux x86_64 static binary' \
-            './${WINDOWS_FILE}#Windows x86 GUI and CLI' \
-            './SHA256SUMS#SHA256 hashes for each release file'
+            "./${LINUX_FILE}#Linux x86_64 static binary" \
+            "./${WINDOWS_FILE}#Windows x86 GUI and CLI" \
+            "./SHA256SUMS#SHA256 hashes for each release file"
