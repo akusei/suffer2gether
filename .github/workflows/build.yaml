@@ -12,6 +12,12 @@ on:
         required: true
         type: string
     outputs:
+      version_major:
+        value: ${{ jobs.version.outputs.version_major }}
+      version_minor:
+        value: ${{ jobs.version.outputs.version_minor }}
+      version_patch:
+        value: ${{ jobs.version.outputs.version_patch }}
       is_valid:
         value: ${{ jobs.version.outputs.is_valid }}
 
@@ -28,7 +34,7 @@ jobs:
       - name: Create version file
         id: get-version
         env:
-          VERSION: ${{ inputs.version || 'v1.0.0' }}
+          VERSION: ${{ inputs.version || 'v0.0.0' }}
         run: |
           if echo "${VERSION}" | grep -q -Eo 'v[0-9]+\.[0-9]+\.[0-9]+'; then
             echo "is_valid=true" >> "$GITHUB_OUTPUT"
@@ -39,110 +45,115 @@ jobs:
           echo ${VERSION} | awk -F'[v.]' '{print "version_minor=" $3}' >> "$GITHUB_OUTPUT"
           echo ${VERSION} | awk -F'[v.]' '{print "version_patch=" $4}' >> "$GITHUB_OUTPUT"
 
-
-  build-linux:
-    if: needs.version.outputs.is_valid == 'true'
-    runs-on: ubuntu-latest
+  debug:
+    run-on: ubuntu-latest
     needs: version
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v6
+    run: |
+      echo "${{ needs.version.outputs.version_major }}"
+
+  # build-linux:
+  #   if: needs.version.outputs.is_valid == 'true'
+  #   runs-on: ubuntu-latest
+  #   needs: version
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v6
   
-      - name: Set PATH
-        run: |
-          echo "~/.tools/cmake/bin:~/.tools/zig:~/.tools/ninja:\$PATH" > $GITHUB_PATH
+  #     - name: Set PATH
+  #       run: |
+  #         echo "~/.tools/cmake/bin:~/.tools/zig:~/.tools/ninja:\$PATH" > $GITHUB_PATH
       
-      - name: Cache CMake
-        id: linux-cmake-tools
-        uses: actions/cache@v5
-        with:
-          path: ~/.tools/cmake
-          key: ${{ runner.os }}-cmake-4.3.3
+  #     - name: Cache CMake
+  #       id: linux-cmake-tools
+  #       uses: actions/cache@v5
+  #       with:
+  #         path: ~/.tools/cmake
+  #         key: ${{ runner.os }}-cmake-4.3.3
 
-      - name: Cache Ninja
-        id: linux-ninja-tools
-        uses: actions/cache@v5
-        with:
-          path: ~/.tools/ninja
-          key: ${{ runner.os }}-ninja-1.13.2
+  #     - name: Cache Ninja
+  #       id: linux-ninja-tools
+  #       uses: actions/cache@v5
+  #       with:
+  #         path: ~/.tools/ninja
+  #         key: ${{ runner.os }}-ninja-1.13.2
 
-      - name: Cache Zig
-        id: linux-zig-tools
-        uses: actions/cache@v5
-        with:
-          path: ~/.tools/zig
-          key: ${{ runner.os }}-zig-0.17.0
+  #     - name: Cache Zig
+  #       id: linux-zig-tools
+  #       uses: actions/cache@v5
+  #       with:
+  #         path: ~/.tools/zig
+  #         key: ${{ runner.os }}-zig-0.17.0
 
-      - name: Install CMake
-        if: steps.linux-cmake-tools.outputs.cache-hit != 'true'
-        run: |
-          curl -sS -L -o /tmp/cmake.tgz https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
-          tar -zxvf /tmp/cmake.tgz -C /tmp
-          sudo mkdir -p ~/.tools/cmake
-          sudo mv /tmp/cmake-4.3.3-linux-x86_64/* ~/.tools/cmake/
+  #     - name: Install CMake
+  #       if: steps.linux-cmake-tools.outputs.cache-hit != 'true'
+  #       run: |
+  #         curl -sS -L -o /tmp/cmake.tgz https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-linux-x86_64.tar.gz
+  #         tar -zxvf /tmp/cmake.tgz -C /tmp
+  #         sudo mkdir -p ~/.tools/cmake
+  #         sudo mv /tmp/cmake-4.3.3-linux-x86_64/* ~/.tools/cmake/
   
-      - name: Install Ninja
-        if: steps.linux-ninja-tools.outputs.cache-hit != 'true'
-        run: |
-          curl -sS -L -o /tmp/ninja.zip https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip
-          sudo mkdir -p ~/.tools/ninja
-          sudo unzip -d ~/.tools/ninja /tmp/ninja.zip
+  #     - name: Install Ninja
+  #       if: steps.linux-ninja-tools.outputs.cache-hit != 'true'
+  #       run: |
+  #         curl -sS -L -o /tmp/ninja.zip https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip
+  #         sudo mkdir -p ~/.tools/ninja
+  #         sudo unzip -d ~/.tools/ninja /tmp/ninja.zip
   
-      - name: Install Zig
-        if: steps.linux-zig-tools.outputs.cache-hit != 'true'
-        run: |
-          curl -sS -L -o /tmp/zig.tar.xz https://ziglang.org/builds/zig-x86_64-linux-0.17.0-dev.813+2153f8143.tar.xz
-          sudo mkdir -p ~/.tools/zig
-          tar -xvf /tmp/zig.tar.xz -C /tmp
-          sudo mv /tmp/zig-x86_64-linux-0.17.0-dev.813+2153f8143/* ~/.tools/zig/
+  #     - name: Install Zig
+  #       if: steps.linux-zig-tools.outputs.cache-hit != 'true'
+  #       run: |
+  #         curl -sS -L -o /tmp/zig.tar.xz https://ziglang.org/builds/zig-x86_64-linux-0.17.0-dev.813+2153f8143.tar.xz
+  #         sudo mkdir -p ~/.tools/zig
+  #         tar -xvf /tmp/zig.tar.xz -C /tmp
+  #         sudo mv /tmp/zig-x86_64-linux-0.17.0-dev.813+2153f8143/* ~/.tools/zig/
 
-      - name: Build release
-        run: |
-          cmake --preset static-release -B out
-          cmake --build out
+  #     - name: Build release
+  #       run: |
+  #         cmake --preset static-release -B out
+  #         cmake --build out
 
-      - name: Upload Linux artifact
-        if: inputs.upload-artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: Linux artifact
-          path: out/suffer2gether
+  #     - name: Upload Linux artifact
+  #       if: inputs.upload-artifacts
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: Linux artifact
+  #         path: out/suffer2gether
 
 
-  build-windows:
-    if: needs.version.outputs.is_valid == 'true'
-    runs-on: windows-2025-vs2026
-    needs: version
-    defaults:
-      run:
-        shell: cmd
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v6
+  # build-windows:
+  #   if: needs.version.outputs.is_valid == 'true'
+  #   runs-on: windows-2025-vs2026
+  #   needs: version
+  #   defaults:
+  #     run:
+  #       shell: cmd
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v6
 
-      - name: Build release
-        env:
-          VERSION_MAJOR: ${{ needs.version.outputs.version_major }}
-          VERSION_MINOR: ${{ needs.version.outputs.version_minor }}
-          VERSION_PATCH: ${{ needs.version.outputs.version_patch }}
-        run: |
-          echo VERSION_MAJOR %VERSION_MAJOR% > version.txt
-          echo VERSION_MINOR %VERSION_MINOR% >> version.txt
-          echo VERSION_PATCH %VERSION_PATCH% >> version.txt
-          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-          cmake --preset windows-x86-release -B out
-          cmake --build out
+  #     - name: Build release
+  #       env:
+  #         VERSION_MAJOR: ${{ needs.version.outputs.version_major }}
+  #         VERSION_MINOR: ${{ needs.version.outputs.version_minor }}
+  #         VERSION_PATCH: ${{ needs.version.outputs.version_patch }}
+  #       run: |
+  #         echo VERSION_MAJOR %VERSION_MAJOR% > version.txt
+  #         echo VERSION_MINOR %VERSION_MINOR% >> version.txt
+  #         echo VERSION_PATCH %VERSION_PATCH% >> version.txt
+  #         call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+  #         cmake --preset windows-x86-release -B out
+  #         cmake --build out
 
-      - name: Upload Windows MFC artifact
-        if: inputs.upload-artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: Windows MFC artifact
-          path: out/suffer2gether.exe
+  #     - name: Upload Windows MFC artifact
+  #       if: inputs.upload-artifacts
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: Windows MFC artifact
+  #         path: out/suffer2gether.exe
 
-      - name: Upload Windows CLI artifact
-        if: inputs.upload-artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: Windows CLI artifact
-          path: out/suffer2gether-cli.exe
+  #     - name: Upload Windows CLI artifact
+  #       if: inputs.upload-artifacts
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: Windows CLI artifact
+  #         path: out/suffer2gether-cli.exe
