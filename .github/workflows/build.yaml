@@ -34,7 +34,7 @@ jobs:
       - name: Create version file
         id: get-version
         env:
-          VERSION: ${{ inputs.version || 'v0.0.0' }}
+          VERSION: ${{ inputs.version || 'v1.0.0' }}
         run: |
           if echo "${VERSION}" | grep -q -Eo 'v[0-9]+\.[0-9]+\.[0-9]+'; then
             echo "is_valid=true" >> "$GITHUB_OUTPUT"
@@ -46,8 +46,11 @@ jobs:
           echo ${VERSION} | awk -F'[v.]' '{print "version_patch=" $4}' >> "$GITHUB_OUTPUT"
 
   debug:
-    runs-on: ubuntu-latest
+    runs-on: windows-2025-vs2026
     needs: version
+    defaults:
+      run:
+        shell: cmd
     steps:
       - name: debug
         run: |
